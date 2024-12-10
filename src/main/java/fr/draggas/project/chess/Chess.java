@@ -14,7 +14,8 @@ public class Chess {
      * 3 xxxxxxxx
      * 2 pppppppp
      * 1 rnbqkbnr
-     *   12345678 y
+     * 
+     *   abcdefgh y
      */
 
     public Chess(){
@@ -49,9 +50,13 @@ public class Chess {
                 if(echiquier.containsKey(p)) affichage += echiquier.get(p).affichage();
                 else affichage += affichageVide;
             }
-            affichage += System.lineSeparator();
+            if(ligne != 1) affichage += System.lineSeparator();
         }
         return affichage;
+    }
+
+    public void deplacer(String mouvement){
+        // Deplacer
     }
 
     public static void main(String[] args) {
