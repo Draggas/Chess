@@ -9,6 +9,15 @@ public class ChessTest {
     @Test
     public void TestRepresentationPlateau(){
         Chess game = new Chess();
-        Assertions.assertEquals(game.toString(),"RNBQKBNR" + ls + "PPPPPPPP" + ls + "xxxxxxxx" + ls + "xxxxxxxx" + ls + "xxxxxxxx" + ls + "xxxxxxxx" + ls + "pppppppp" + "rnbqkbnr");
+        String affichage =  "RNBQKBNR" + ls + 
+                            "PPPPPPPP" + ls + 
+                            "xxxxxxxx" + ls + 
+                            "xxxxxxxx" + ls + 
+                            "xxxxxxxx" + ls + 
+                            "xxxxxxxx" + ls + 
+                            "pppppppp" + ls + 
+                            "rnbqkbnr";
+                            
+        Assertions.assertEquals(affichage, game.affichage());
     }
 }
