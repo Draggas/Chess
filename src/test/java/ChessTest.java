@@ -35,6 +35,28 @@ public class ChessTest {
         Assertions.assertEquals(affichage, game.affichage());
     }
 
+    @Test
+    public void TestNotationValide(){
+        Assertions.assertTrue(Chess.estNotationValide("e2-e4"));
+        Assertions.assertTrue(Chess.estNotationValide("d4-d3"));
+        Assertions.assertTrue(Chess.estNotationValide("e8-e5"));
+        Assertions.assertTrue(Chess.estNotationValide("Rd7-d6"));
+        Assertions.assertTrue(Chess.estNotationValide("Na6-a7"));
+        Assertions.assertTrue(Chess.estNotationValide("Bc5-c8"));
+        Assertions.assertTrue(Chess.estNotationValide("Qf3-f1"));
+        Assertions.assertTrue(Chess.estNotationValide("Ke1-e2"));
+        Assertions.assertTrue(Chess.estNotationValide("O-O-O"));
+        Assertions.assertTrue(Chess.estNotationValide("O-O"));
+        Assertions.assertTrue(Chess.estNotationValide("Be2xh1"));
+        Assertions.assertTrue(Chess.estNotationValide("Nf7xg6"));
+
+        Assertions.assertFalse(Chess.estNotationValide("Ce2xh1"));
+        Assertions.assertFalse(Chess.estNotationValide("Be2xBh1"));
+        Assertions.assertFalse(Chess.estNotationValide("De2-Dh1"));
+        Assertions.assertFalse(Chess.estNotationValide("Be2x-h1"));
+        Assertions.assertFalse(Chess.estNotationValide("Bxh1"));
+    }
+
     public void TestDeplacementPion(){
         game.deplacer("e2-e4");
         game.deplacer("d2-d3");
