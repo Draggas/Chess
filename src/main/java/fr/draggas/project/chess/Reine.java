@@ -12,7 +12,8 @@ public class Reine extends Pieces {
 
     @Override
     public boolean verifMouvement(Position d, Position a) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'mouvement'");
+        Tour t = new Tour(couleurBlanche);
+        Fou f = new Fou(couleurBlanche);
+        return f.verifMouvement(d, a) || t.verifMouvement(d, a);
     }
 }
