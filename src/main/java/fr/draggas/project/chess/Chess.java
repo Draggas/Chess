@@ -144,15 +144,17 @@ public class Chess {
         System.out.println(chess.affichage());
         System.out.println("---");
         chess.deplacer("e2-e4");
+        System.out.println(chess.affichage());
         chess.deplacer("e7-e5");
+        System.out.println(chess.affichage());
         chess.deplacer("Ng1-f3");
+        System.out.println(chess.affichage());
         chess.deplacer("Nb8-c6");
         System.out.println(chess.affichage());
+        chess.deplacer("Bf1-c4");
+        System.out.println(chess.affichage());
+        chess.deplacer("Ng8-f6");
+        System.out.println(chess.affichage());
         System.out.println("---");
-        
-        Chess chessVide = new Chess(false);
-        chessVide.addPieces(new Position('a',1), new Tour(true));
-        chessVide.estDeplacementValide("Ra1-a8");
-        System.out.println(chessVide.affichage());
     }
 }
