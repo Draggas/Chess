@@ -1,7 +1,11 @@
 package fr.draggas.project.chess;
 
+import java.lang.invoke.VarHandle;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+import java.util.regex.Pattern;
 
 public class Chess {
     Map<Position,Pieces> echiquier = new HashMap<>();
@@ -18,8 +22,11 @@ public class Chess {
      *   abcdefgh y
      */
 
+    private static final Map<String, Set<Character>> CARA = new HashMap<>();
+
     public Chess(){
         initialisationPlateau();
+        initialisationValidationDeCara();
     }
     
     public void initialisationPlateau(){
@@ -40,6 +47,13 @@ public class Chess {
 
     }
 
+    public void initialisationValidationDeCara(){
+        CARA.put("name", Set.of('R','N','B','Q','K'));
+        CARA.put("colonne", Set.of('a','b','c','d','e','f','g','h'));
+        CARA.put("ligne", Set.of('1', '2', '3', '4', '5', '6', '7', '8'));
+        CARA.put("symbole", Set.of('-', 'x'));
+    }
+
     public String affichage(){
         String affichage = "";
         Position p;
@@ -57,6 +71,23 @@ public class Chess {
 
     public void deplacer(String mouvement){
         // Deplacer
+    }
+
+    public static boolean estNotationValide(String coup) { // Exemple : Kb8xd4
+        if(Set.of("O-O","O-O-O").contains(coup)) return true;
+        if(coup.length() < 5 || coup.length() > 6) return false;
+        int i = 0;
+        if(coup.length() == 6 && CARA.get("name").contains(coup.charAt(0))){ // K
+            i = 1;
+        } else if(coup.length() != 5){
+            return false;
+        }
+        return  CARA.get("colonne").contains(coup.charAt(i++)) && // b
+                CARA.get("ligne").contains(coup.charAt(i++)) && // 8
+                CARA.get("symbole").contains(coup.charAt(i++)) && // x
+                CARA.get("colonne").contains(coup.charAt(i++)) && // d
+                CARA.get("ligne").contains(coup.charAt(i)); // 4
+
     }
 
     public static void main(String[] args) {
