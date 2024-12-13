@@ -86,6 +86,19 @@ public class ChessTest {
         Assertions.assertFalse(game.estDeplacementValide("a6-a4"));
         Assertions.assertFalse(game.estDeplacementValide("a3-a8"));
         Assertions.assertFalse(game.estDeplacementValide("b3-a4"));
+
+        Assertions.assertTrue(game.estDeplacementValide("a2-a4"));
+        Assertions.assertTrue(game.estDeplacementValide("a7-a5"));
+        Assertions.assertFalse(game.estDeplacementValide("a4-a5"));
+        Assertions.assertFalse(game.estDeplacementValide("a5-a4"));
+        Assertions.assertTrue(game.estDeplacementValide("b2-b4"));
+        game.addPieces(new Position('b',7), new Pion(false));
+        Assertions.assertTrue(game.estDeplacementValide("b7-b5"));
+        Assertions.assertFalse(game.estDeplacementValide("a4xa5"));
+        Assertions.assertFalse(game.estDeplacementValide("b5xb4"));
+        Assertions.assertTrue(game.estDeplacementValide("b4xa5"));
+        Assertions.assertTrue(game.estDeplacementValide("b5xa4"));
+
     }
 
     @Test
@@ -111,6 +124,19 @@ public class ChessTest {
         Assertions.assertFalse(game.estDeplacementValide("Nd2xc4"));
         Assertions.assertFalse(game.estDeplacementValide("Nd2-Nd9"));
         Assertions.assertFalse(game.estDeplacementValide("Nd1-Nd4"));
+
+        game = new Chess(false);
+        game.addPieces(new Position('d',2), new Cavalier(true));
+        game.addPieces(new Position('d',3), new Cavalier(false));
+        game.addPieces(new Position('e',3), new Cavalier(false));
+        game.addPieces(new Position('f',2), new Cavalier(false));
+        game.addPieces(new Position('f',3), new Cavalier(false));
+        Assertions.assertFalse(game.estDeplacementValide("Nd2-f3"));
+        Assertions.assertTrue(game.estDeplacementValide("Nd2xf3"));
+        game.addPieces(new Position('d',2), new Cavalier(false));
+        game.addPieces(new Position('h',3), new Cavalier(true));
+        Assertions.assertFalse(game.estDeplacementValide("Nd2-h3"));
+        Assertions.assertFalse(game.estDeplacementValide("Nd2xh3"));
     }
 
     @Test
