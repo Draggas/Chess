@@ -5,15 +5,20 @@ public class Position {
     int position_y;
 
     public Position(int position_x, int position_y){
-        if(position_x < 1 || position_x > 8 || position_y < 1 || position_y > 8){
-            System.err.println("Valeur de la position incorrecte. Doit comprendre une valeur entre 1 et 8 pour le x et le y, valeur actuelle x/y : " + position_x + "/" + position_y);
+        if(verifValeur(position_x, position_y)){
+            this.position_x = position_x;
+            this.position_y = position_y;
+        } else {
+            System.out.println("Invalide valeurs");
         }
-        this.position_x = position_x;
-        this.position_y = position_y;
     }
 
     public Position(char position_x, int position_y){
         this((int)(position_x - 'a')+1, position_y);
+    }
+
+    public boolean verifValeur(int x, int y){
+        return (position_x >= 1 && position_x <= 8 || position_y >= 1 || position_y <= 8);
     }
 
     // Redéfinition de Hashcode et de Equals pour valider le ContainsKey

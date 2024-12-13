@@ -11,7 +11,7 @@ public class Cavalier extends Pieces {
     }
 
     @Override
-    public boolean verifMouvement(Position d, Position a) {
+    public boolean verifMouvement(Position d, Position a, Chess e) {
         for(int x=-2;x<=2;x++){
             if(x == 0) x = 1;
             for(int y=-2;y<=2;y++){

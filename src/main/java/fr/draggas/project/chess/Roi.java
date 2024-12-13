@@ -11,7 +11,7 @@ public class Roi extends Pieces {
     }
 
     @Override
-    public boolean verifMouvement(Position d, Position a) {
+    public boolean verifMouvement(Position d, Position a, Chess e) {
         return ((a.getX() - d.getX() <= 1) && (a.getY() - d.getY() <= 1));
     }
 }

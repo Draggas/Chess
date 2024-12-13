@@ -11,9 +11,13 @@ public class Reine extends Pieces {
     }
 
     @Override
-    public boolean verifMouvement(Position d, Position a) {
+    public boolean verifMouvement(Position d, Position a, Chess e) {
         Tour t = new Tour(couleurBlanche);
         Fou f = new Fou(couleurBlanche);
-        return f.verifMouvement(d, a) || t.verifMouvement(d, a);
+        if(d.getX() == a.getX() || d.getY() == a.getY()){
+            return t.verifMouvement(d, a, e);
+        } else {
+            return f.verifMouvement(d, a, e);
+        }
     }
 }

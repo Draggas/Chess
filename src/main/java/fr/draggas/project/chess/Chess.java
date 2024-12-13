@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+import org.junit.jupiter.api.Assertions;
+
 public class Chess {
     Map<Position,Pieces> echiquier = new HashMap<>();
     /* y
@@ -104,13 +106,14 @@ public class Chess {
         Boolean attrape = ('x' == coup.charAt(i++));
         Position arrivee = new Position(coup.charAt(i++), Character.getNumericValue(coup.charAt(i++)));
         if(!echiquier.containsKey(depart) || depart.equals(arrivee)) return false;
+        if(attrape && echiquier.containsKey(arrivee) && (echiquier.get(depart).couleurBlanche() == echiquier.get(arrivee).couleurBlanche())) return false;
         Boolean test = switch(type){
-            case 'K' -> (echiquier.get(depart).getClass() == Roi.class) && echiquier.get(depart).verifMouvement(depart, arrivee);
-            case 'Q' -> (echiquier.get(depart).getClass() == Reine.class) && echiquier.get(depart).verifMouvement(depart, arrivee);
-            case 'R' -> (echiquier.get(depart).getClass() == Tour.class) && echiquier.get(depart).verifMouvement(depart, arrivee);
-            case 'B' -> (echiquier.get(depart).getClass() == Fou.class) && echiquier.get(depart).verifMouvement(depart, arrivee);
-            case 'N' -> (echiquier.get(depart).getClass() == Cavalier.class) && echiquier.get(depart).verifMouvement(depart, arrivee);
-            case 'P' -> (echiquier.get(depart).getClass() == Pion.class) && ((Pion)echiquier.get(depart)).verifMouvement(depart, attrape, arrivee);
+            case 'K' -> (echiquier.get(depart).getClass() == Roi.class) && echiquier.get(depart).verifMouvement(depart, arrivee, this);
+            case 'Q' -> (echiquier.get(depart).getClass() == Reine.class) && echiquier.get(depart).verifMouvement(depart, arrivee, this);
+            case 'R' -> (echiquier.get(depart).getClass() == Tour.class) && echiquier.get(depart).verifMouvement(depart, arrivee, this);
+            case 'B' -> (echiquier.get(depart).getClass() == Fou.class) && echiquier.get(depart).verifMouvement(depart, arrivee, this);
+            case 'N' -> (echiquier.get(depart).getClass() == Cavalier.class) && echiquier.get(depart).verifMouvement(depart, arrivee, this);
+            case 'P' -> (echiquier.get(depart).getClass() == Pion.class) && ((Pion)echiquier.get(depart)).verifMouvement(depart, attrape, arrivee, this);
             default -> throw new NoSuchElementException();
         };
         return test && deplacement(depart, attrape, arrivee);
@@ -130,7 +133,11 @@ public class Chess {
     }
     public void removePieces(Position pose){
         echiquier.remove(pose);
-     }
+    }
+
+    public boolean caseVide(Position pose){
+        return !echiquier.containsKey(pose);
+    }
 
     public static void main(String[] args) {
         Chess chess = new Chess();
@@ -144,9 +151,8 @@ public class Chess {
         System.out.println("---");
         
         Chess chessVide = new Chess(false);
-        chessVide.addPieces(new Position('a',1), new Fou(true));
-        chessVide.deplacer("Ba1-g7");
-        chessVide.deplacer("Bg7-f8");
+        chessVide.addPieces(new Position('a',1), new Tour(true));
+        chessVide.estDeplacementValide("Ra1-a8");
         System.out.println(chessVide.affichage());
     }
 }
