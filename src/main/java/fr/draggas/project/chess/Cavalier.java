@@ -16,7 +16,7 @@ public class Cavalier extends Pieces {
             if(x == 0) x = 1;
             for(int y=-2;y<=2;y++){
                 if(y == 0) y = 1;
-                if(x != y && x*-1 != y*-1 && d.getX()+x == a.getX() && d.getY()+y == a.getY()) return true;
+                if(x != y && x != y*-1 && x*-1 != y && d.getX()+x == a.getX() && d.getY()+y == a.getY()) return true;
             }
         }
         return false;

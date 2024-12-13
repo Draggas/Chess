@@ -12,7 +12,6 @@ public class Roi extends Pieces {
 
     @Override
     public boolean verifMouvement(Position d, Position a) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'mouvement'");
+        return ((a.getX() - d.getX() <= 1) && (a.getY() - d.getY() <= 1));
     }
 }
