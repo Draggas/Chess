@@ -2,9 +2,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import fr.draggas.project.chess.Cavalier;
-import fr.draggas.project.chess.Chess;
-import fr.draggas.project.chess.Position;
+import fr.draggas.project.chess.*;
 
 public class ChessTest {
     Chess game;
@@ -113,5 +111,27 @@ public class ChessTest {
         Assertions.assertFalse(game.estDeplacementValide("Nd2xc4"));
         Assertions.assertFalse(game.estDeplacementValide("Nd2-Nd9"));
         Assertions.assertFalse(game.estDeplacementValide("Nd1-Nd4"));
+    }
+
+    @Test
+    public void TestDeplacementValideFou(){
+        game = new Chess(false);
+        game.addPieces(new Position('a',1), new Fou(true));
+        game.addPieces(new Position('a',2), new Fou(true));
+        Assertions.assertTrue(game.estDeplacementValide("Ba1-g7"));
+        Assertions.assertTrue(game.estDeplacementValide("Bg7-f8"));
+        Assertions.assertTrue(game.estDeplacementValide("Bf8-h6"));
+        game.addPieces(new Position('d',2), new Cavalier(false));
+        Assertions.assertTrue(game.estDeplacementValide("Bh6xd2"));
+        game.addPieces(new Position('d',5), new Pion(false));
+        Assertions.assertTrue(game.estDeplacementValide("Ba2xBd5"));
+        Assertions.assertTrue(game.estDeplacementValide("Bd5-Bh1"));
+
+        Assertions.assertFalse(game.estDeplacementValide("Bd2-g1"));
+        Assertions.assertFalse(game.estDeplacementValide("Bd2-d3"));
+        Assertions.assertFalse(game.estDeplacementValide("Bd2xe3"));
+        game.addPieces(new Position('d',5), new Pion(false));
+        Assertions.assertFalse(game.estDeplacementValide("Bh1-d5"));
+        Assertions.assertFalse(game.estDeplacementValide("Bh1-b2"));
     }
 }
