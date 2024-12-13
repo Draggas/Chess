@@ -60,7 +60,7 @@ public class Chess {
         Position p;
         String affichageVide = "x";
         for(int ligne=8;ligne>=1;ligne--){
-            for(int colonne=8;colonne>=1;colonne--){
+            for(int colonne=1;colonne<=8;colonne++){
                 p = new Position(colonne, ligne);
                 if(echiquier.containsKey(p)) affichage += echiquier.get(p).affichage();
                 else affichage += affichageVide;
@@ -111,12 +111,12 @@ public class Chess {
             case 'P' -> (echiquier.get(depart).getClass() == Pion.class) && echiquier.get(depart).verifMouvement(depart, attrape, arrivee);
             default -> throw new NoSuchElementException();
         };
-        if(test) deplacement(depart, arrivee);
-        return test;
+        return test && deplacement(depart, arrivee);
     }
 
-    public void deplacement(Position d, Position a){
-        echiquier.put(d, echiquier.remove(d));
+    public boolean deplacement(Position d, Position a){
+        echiquier.put(a, echiquier.remove(d));
+        return true;
     }
 
     public void addPieces(Position pose, Pieces p){
@@ -128,6 +128,11 @@ public class Chess {
 
     public static void main(String[] args) {
         Chess chess = new Chess();
+        System.out.println(chess.affichage());
+        chess.deplacement(new Position('a', 2), new Position('a', 4));
+        chess.deplacement(new Position('d', 2), new Position('d', 3));
+        chess.deplacement(new Position('e', 7), new Position('e', 5));
+        chess.deplacement(new Position('d', 7), new Position('d', 5));
         System.out.println(chess.affichage());
     }
 }

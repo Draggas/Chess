@@ -77,8 +77,16 @@ public class ChessTest {
         Assertions.assertTrue(game.estDeplacementValide("e2-e4"));
         Assertions.assertTrue(game.estDeplacementValide("d2-d3"));
         Assertions.assertTrue(game.estDeplacementValide("e7-e5"));
-        Assertions.assertTrue(game.estDeplacementValide("d7-d6"));
+        Assertions.assertTrue(game.estDeplacementValide("d7-d5"));
+        Assertions.assertTrue(game.estDeplacementValide("e4xd5"));
+        Assertions.assertTrue(game.estDeplacementValide("c7-c6"));
+        Assertions.assertTrue(game.estDeplacementValide("d5xc6"));
+        Assertions.assertTrue(game.estDeplacementValide("b7xc6"));
         Assertions.assertFalse(game.estNotationValide("e2-"));
         Assertions.assertFalse(game.estNotationValide("Be2xBh1"));
+        Assertions.assertFalse(game.estNotationValide("a2-a5"));
+        Assertions.assertFalse(game.estNotationValide("a6-a4"));
+        Assertions.assertFalse(game.estNotationValide("a3-a8"));
+        Assertions.assertFalse(game.estNotationValide("b3-a4"));
     }
 }

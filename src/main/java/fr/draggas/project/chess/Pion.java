@@ -12,13 +12,11 @@ public class Pion extends Pieces {
 
     @Override
     public boolean verifMouvement(Position d, boolean prise, Position a) {
-        if(prise){
-
-        } else {
-            if(d.getX()+1 == a.getX()){
-                return false;
-            }
-        }
+        int direction = couleurBlanche ? 1 : -1;
+        int ligneInitiale = couleurBlanche ? 2 : 7;
+        int ligneDoubleAvancee = couleurBlanche ? 4 : 5;
+        if(prise && d.getY()+direction == a.getY() && (d.getX()-1 == a.getX() || d.getX()+1 == a.getX())) return true;
+        if(!prise && (d.getX() == a.getX()) && ((d.getY() == ligneInitiale && a.getY() == ligneDoubleAvancee) || d.getY()+direction == a.getY())) return true;
         return false;
     }
 }
