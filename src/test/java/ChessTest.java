@@ -134,4 +134,14 @@ public class ChessTest {
         Assertions.assertFalse(game.estDeplacementValide("Bh1-d5"));
         Assertions.assertFalse(game.estDeplacementValide("Bh1-b2"));
     }
+
+    @Test
+    public void TestDeplacementValideTour(){
+        game = new Chess(false);
+        game.addPieces(new Position('a',1), new Tour(true));
+        Assertions.assertTrue(game.estDeplacementValide("Ra1-a8"));
+        Assertions.assertTrue(game.estDeplacementValide("Ra8-Rf8"));
+        Assertions.assertTrue(game.estDeplacementValide("Rf8-Rf3"));
+        Assertions.assertTrue(game.estDeplacementValide("Rf3-Rb3"));
+    }
 }
