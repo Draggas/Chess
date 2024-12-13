@@ -37,8 +37,8 @@ public class Chess {
             echiquier.put(new Position(1,i*7+1), new Tour((i==0)));
             echiquier.put(new Position(2,i*7+1), new Cavalier((i==0)));
             echiquier.put(new Position(3,i*7+1), new Fou((i==0)));
-            echiquier.put(new Position(4,i*7+1), new Roi((i==0)));
-            echiquier.put(new Position(5,i*7+1), new Reine((i==0)));
+            echiquier.put(new Position(4,i*7+1), new Reine((i==0)));
+            echiquier.put(new Position(5,i*7+1), new Roi((i==0)));
             echiquier.put(new Position(6,i*7+1), new Fou((i==0)));
             echiquier.put(new Position(7,i*7+1), new Cavalier((i==0)));
             echiquier.put(new Position(8,i*7+1), new Tour((i==0)));
@@ -71,7 +71,7 @@ public class Chess {
     }
 
     public void deplacer(String mouvement){
-        if(estNotationValide(mouvement)){
+        if(estNotationValide(mouvement) && estDeplacementValide(mouvement)){
 
         }
     }
@@ -89,8 +89,7 @@ public class Chess {
                 CARA.get("ligne").contains(coup.charAt(i++)) && // 8
                 CARA.get("symbole").contains(coup.charAt(i++)) && // x
                 CARA.get("colonne").contains(coup.charAt(i++)) && // d
-                CARA.get("ligne").contains(coup.charAt(i)) // 4
-                && estDeplacementValide(coup);
+                CARA.get("ligne").contains(coup.charAt(i)); // 4
 
     }
 
@@ -103,20 +102,24 @@ public class Chess {
         Position arrivee = new Position(coup.charAt(i++), Character.getNumericValue(coup.charAt(i++)));
         if(!echiquier.containsKey(depart)) return false;
         Boolean test = switch(type){
-            case 'K' -> (echiquier.get(depart).getClass() == Roi.class) && echiquier.get(depart).verifMouvement(depart, attrape, arrivee);
-            case 'Q' -> (echiquier.get(depart).getClass() == Reine.class) && echiquier.get(depart).verifMouvement(depart, attrape, arrivee);
-            case 'R' -> (echiquier.get(depart).getClass() == Tour.class) && echiquier.get(depart).verifMouvement(depart, attrape, arrivee);
-            case 'B' -> (echiquier.get(depart).getClass() == Fou.class) && echiquier.get(depart).verifMouvement(depart, attrape, arrivee);
-            case 'N' -> (echiquier.get(depart).getClass() == Cavalier.class) && echiquier.get(depart).verifMouvement(depart, attrape, arrivee);
-            case 'P' -> (echiquier.get(depart).getClass() == Pion.class) && echiquier.get(depart).verifMouvement(depart, attrape, arrivee);
+            case 'K' -> (echiquier.get(depart).getClass() == Roi.class) && echiquier.get(depart).verifMouvement(depart, arrivee);
+            case 'Q' -> (echiquier.get(depart).getClass() == Reine.class) && echiquier.get(depart).verifMouvement(depart, arrivee);
+            case 'R' -> (echiquier.get(depart).getClass() == Tour.class) && echiquier.get(depart).verifMouvement(depart, arrivee);
+            case 'B' -> (echiquier.get(depart).getClass() == Fou.class) && echiquier.get(depart).verifMouvement(depart, arrivee);
+            case 'N' -> (echiquier.get(depart).getClass() == Cavalier.class) && echiquier.get(depart).verifMouvement(depart, arrivee);
+            case 'P' -> (echiquier.get(depart).getClass() == Pion.class) && ((Pion)echiquier.get(depart)).verifMouvement(depart, attrape, arrivee);
             default -> throw new NoSuchElementException();
         };
-        return test && deplacement(depart, arrivee);
+        return test && deplacement(depart, attrape, arrivee);
     }
 
-    public boolean deplacement(Position d, Position a){
-        echiquier.put(a, echiquier.remove(d));
-        return true;
+    public boolean deplacement(Position d, boolean attrape, Position a){
+        if((attrape && echiquier.containsKey(a)) || (!attrape && !echiquier.containsKey(a))){
+            echiquier.put(a, echiquier.remove(d));
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void addPieces(Position pose, Pieces p){
@@ -129,10 +132,11 @@ public class Chess {
     public static void main(String[] args) {
         Chess chess = new Chess();
         System.out.println(chess.affichage());
-        chess.deplacement(new Position('a', 2), new Position('a', 4));
-        chess.deplacement(new Position('d', 2), new Position('d', 3));
-        chess.deplacement(new Position('e', 7), new Position('e', 5));
-        chess.deplacement(new Position('d', 7), new Position('d', 5));
+        System.out.println("---");
+        chess.deplacement(new Position('a', 2), false, new Position('a', 4));
+        chess.deplacement(new Position('d', 2), false, new Position('d', 3));
+        chess.deplacement(new Position('e', 7), false, new Position('e', 5));
+        chess.deplacement(new Position('d', 7), false, new Position('d', 5));
         System.out.println(chess.affichage());
     }
 }

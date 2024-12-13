@@ -10,7 +10,6 @@ public class Pion extends Pieces {
         return super.affichageCouleur(name);
     }
 
-    @Override
     public boolean verifMouvement(Position d, boolean prise, Position a) {
         int direction = couleurBlanche ? 1 : -1;
         int ligneInitiale = couleurBlanche ? 2 : 7;
@@ -19,4 +18,10 @@ public class Pion extends Pieces {
         if(!prise && (d.getX() == a.getX()) && ((d.getY() == ligneInitiale && a.getY() == ligneDoubleAvancee) || d.getY()+direction == a.getY())) return true;
         return false;
     }
+    
+    @Override
+    public boolean verifMouvement(Position d, Position a) {
+        return verifMouvement(d, false, a); // par défaut
+    }
+
 }

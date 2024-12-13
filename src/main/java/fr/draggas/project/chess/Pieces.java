@@ -16,7 +16,7 @@ public abstract class Pieces {
     
     public abstract String affichage();
 
-    public abstract boolean verifMouvement(Position d, boolean prise, Position a);
+    public abstract boolean verifMouvement(Position d, Position a);
 
     public String getName(){
         return name;

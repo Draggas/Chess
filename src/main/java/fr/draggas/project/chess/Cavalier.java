@@ -11,7 +11,7 @@ public class Cavalier extends Pieces {
     }
 
     @Override
-    public boolean verifMouvement(Position d, boolean prise, Position a) {
+    public boolean verifMouvement(Position d, Position a) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'mouvement'");
     }
