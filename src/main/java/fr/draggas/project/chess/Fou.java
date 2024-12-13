@@ -12,8 +12,13 @@ public class Fou extends Pieces {
 
     @Override
     public boolean verifMouvement(Position d, Position a) {
-                // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'mouvement'");
+        for(int i=1;i<=7;i++){
+            if((d.getX()+i == a.getX()) && (d.getY()+i == a.getY())) return true;
+            if((d.getX()-i == a.getX()) && (d.getY()+i == a.getY())) return true;
+            if((d.getX()+i == a.getX()) && (d.getY()-i == a.getY())) return true;
+            if((d.getX()-i == a.getX()) && (d.getY()-i == a.getY())) return true;
+        }
+        return false;
     }
 }
 

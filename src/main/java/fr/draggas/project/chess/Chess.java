@@ -141,5 +141,12 @@ public class Chess {
         chess.deplacer("Ng1-f3");
         chess.deplacer("Nb8-c6");
         System.out.println(chess.affichage());
+        System.out.println("---");
+        
+        Chess chessVide = new Chess(false);
+        chessVide.addPieces(new Position('a',1), new Fou(true));
+        chessVide.deplacer("Ba1-g7");
+        chessVide.deplacer("Bg7-f8");
+        System.out.println(chessVide.affichage());
     }
 }

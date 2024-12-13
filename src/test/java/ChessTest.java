@@ -124,8 +124,8 @@ public class ChessTest {
         game.addPieces(new Position('d',2), new Cavalier(false));
         Assertions.assertTrue(game.estDeplacementValide("Bh6xd2"));
         game.addPieces(new Position('d',5), new Pion(false));
-        Assertions.assertTrue(game.estDeplacementValide("Ba2xBd5"));
-        Assertions.assertTrue(game.estDeplacementValide("Bd5-Bh1"));
+        Assertions.assertTrue(game.estDeplacementValide("Ba2xd5"));
+        Assertions.assertTrue(game.estDeplacementValide("Bd5-h1"));
 
         Assertions.assertFalse(game.estDeplacementValide("Bd2-g1"));
         Assertions.assertFalse(game.estDeplacementValide("Bd2-d3"));
