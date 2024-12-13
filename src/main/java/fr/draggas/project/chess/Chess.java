@@ -1,11 +1,8 @@
 package fr.draggas.project.chess;
 
-import java.lang.invoke.VarHandle;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 public class Chess {
     Map<Position,Pieces> echiquier = new HashMap<>();
@@ -24,9 +21,12 @@ public class Chess {
 
     private static final Map<String, Set<Character>> CARA = new HashMap<>();
 
+    public Chess(boolean nonVide){
+        if(nonVide) initialisationPlateau();
+    }
+
     public Chess(){
-        initialisationPlateau();
-        initialisationValidationDeCara();
+        this(true);
     }
     
     public void initialisationPlateau(){
@@ -70,10 +70,12 @@ public class Chess {
     }
 
     public void deplacer(String mouvement){
-        // Deplacer
+        if(estNotationValide(mouvement) && estDeplacementValide(mouvement)){
+
+        }
     }
 
-    public static boolean estNotationValide(String coup) { // Exemple : Kb8xd4
+    public boolean estNotationValide(String coup) { // Exemple : Kb8xd4
         if(Set.of("O-O","O-O-O").contains(coup)) return true;
         if(coup.length() < 5 || coup.length() > 6) return false;
         int i = 0;
@@ -89,6 +91,17 @@ public class Chess {
                 CARA.get("ligne").contains(coup.charAt(i)); // 4
 
     }
+
+    public boolean estDeplacementValide(String coup) { // Exemple : e2-e4
+        return false;
+    }
+
+    public void addPieces(Position pose, Pieces p){
+       echiquier.put(pose, p);
+    }
+    public void removePieces(Position pose){
+        echiquier.remove(pose);
+     }
 
     public static void main(String[] args) {
         Chess chess = new Chess();
