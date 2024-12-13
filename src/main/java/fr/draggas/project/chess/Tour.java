@@ -11,9 +11,8 @@ public class Tour extends Pieces {
     }
 
     @Override
-    public String mouvement() {
+    public boolean verifMouvement(Position d, boolean prise, Position a) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'mouvement'");
     }
-    
 }

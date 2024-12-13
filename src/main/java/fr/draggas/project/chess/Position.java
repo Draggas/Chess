@@ -12,6 +12,10 @@ public class Position {
         this.position_y = position_y;
     }
 
+    public Position(char position_x, int position_y){
+        this((int)(position_x - 'a')+1, position_y);
+    }
+
     // Redéfinition de Hashcode et de Equals pour valider le ContainsKey
     @Override
     public int hashCode() {

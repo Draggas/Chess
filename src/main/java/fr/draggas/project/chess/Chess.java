@@ -2,11 +2,12 @@ package fr.draggas.project.chess;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 public class Chess {
     Map<Position,Pieces> echiquier = new HashMap<>();
-    /* x
+    /* y
      * 8 RNBQKBNR
      * 7 PPPPPPPP
      * 6 xxxxxxxx
@@ -16,13 +17,14 @@ public class Chess {
      * 2 pppppppp
      * 1 rnbqkbnr
      * 
-     *   abcdefgh y
+     *   abcdefgh x
      */
 
     private static final Map<String, Set<Character>> CARA = new HashMap<>();
 
     public Chess(boolean nonVide){
         if(nonVide) initialisationPlateau();
+        initialisationValidationDeCara();
     }
 
     public Chess(){
@@ -32,19 +34,18 @@ public class Chess {
     public void initialisationPlateau(){
         
         for(int i=0;i<2;i++){
-            echiquier.put(new Position(i*7+1,1), new Tour((i==0)));
-            echiquier.put(new Position(i*7+1,2), new Cavalier((i==0)));
-            echiquier.put(new Position(i*7+1,3), new Fou((i==0)));
-            echiquier.put(new Position(i*7+1,4), new Roi((i==0)));
-            echiquier.put(new Position(i*7+1,5), new Reine((i==0)));
-            echiquier.put(new Position(i*7+1,6), new Fou((i==0)));
-            echiquier.put(new Position(i*7+1,7), new Cavalier((i==0)));
-            echiquier.put(new Position(i*7+1,8), new Tour((i==0)));
+            echiquier.put(new Position(1,i*7+1), new Tour((i==0)));
+            echiquier.put(new Position(2,i*7+1), new Cavalier((i==0)));
+            echiquier.put(new Position(3,i*7+1), new Fou((i==0)));
+            echiquier.put(new Position(4,i*7+1), new Roi((i==0)));
+            echiquier.put(new Position(5,i*7+1), new Reine((i==0)));
+            echiquier.put(new Position(6,i*7+1), new Fou((i==0)));
+            echiquier.put(new Position(7,i*7+1), new Cavalier((i==0)));
+            echiquier.put(new Position(8,i*7+1), new Tour((i==0)));
             for(int colonne=1;colonne<9;colonne++){
-                echiquier.put(new Position(i*5+2,colonne), new Pion((i==0)));
+                echiquier.put(new Position(colonne,i*5+2), new Pion((i==0)));
             }
         }
-
     }
 
     public void initialisationValidationDeCara(){
@@ -60,7 +61,7 @@ public class Chess {
         String affichageVide = "x";
         for(int ligne=8;ligne>=1;ligne--){
             for(int colonne=8;colonne>=1;colonne--){
-                p = new Position(ligne, colonne);
+                p = new Position(colonne, ligne);
                 if(echiquier.containsKey(p)) affichage += echiquier.get(p).affichage();
                 else affichage += affichageVide;
             }
@@ -70,7 +71,7 @@ public class Chess {
     }
 
     public void deplacer(String mouvement){
-        if(estNotationValide(mouvement) && estDeplacementValide(mouvement)){
+        if(estNotationValide(mouvement)){
 
         }
     }
@@ -88,12 +89,34 @@ public class Chess {
                 CARA.get("ligne").contains(coup.charAt(i++)) && // 8
                 CARA.get("symbole").contains(coup.charAt(i++)) && // x
                 CARA.get("colonne").contains(coup.charAt(i++)) && // d
-                CARA.get("ligne").contains(coup.charAt(i)); // 4
+                CARA.get("ligne").contains(coup.charAt(i)) // 4
+                && estDeplacementValide(coup);
 
     }
 
     public boolean estDeplacementValide(String coup) { // Exemple : e2-e4
-        return false;
+        char type = 'P';
+        int i = 0;
+        if(coup.length() == 6) type = coup.charAt(i++);
+        Position depart = new Position(coup.charAt(i++), Character.getNumericValue(coup.charAt(i++)));
+        Boolean attrape = ('x' == coup.charAt(i++));
+        Position arrivee = new Position(coup.charAt(i++), Character.getNumericValue(coup.charAt(i++)));
+        if(!echiquier.containsKey(depart)) return false;
+        Boolean test = switch(type){
+            case 'K' -> (echiquier.get(depart).getClass() == Roi.class) && echiquier.get(depart).verifMouvement(depart, attrape, arrivee);
+            case 'Q' -> (echiquier.get(depart).getClass() == Reine.class) && echiquier.get(depart).verifMouvement(depart, attrape, arrivee);
+            case 'R' -> (echiquier.get(depart).getClass() == Tour.class) && echiquier.get(depart).verifMouvement(depart, attrape, arrivee);
+            case 'B' -> (echiquier.get(depart).getClass() == Fou.class) && echiquier.get(depart).verifMouvement(depart, attrape, arrivee);
+            case 'N' -> (echiquier.get(depart).getClass() == Cavalier.class) && echiquier.get(depart).verifMouvement(depart, attrape, arrivee);
+            case 'P' -> (echiquier.get(depart).getClass() == Pion.class) && echiquier.get(depart).verifMouvement(depart, attrape, arrivee);
+            default -> throw new NoSuchElementException();
+        };
+        if(test) deplacement(depart, arrivee);
+        return test;
+    }
+
+    public void deplacement(Position d, Position a){
+        echiquier.put(d, echiquier.remove(d));
     }
 
     public void addPieces(Position pose, Pieces p){

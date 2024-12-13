@@ -11,9 +11,14 @@ public class Pion extends Pieces {
     }
 
     @Override
-    public String mouvement() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'mouvement'");
+    public boolean verifMouvement(Position d, boolean prise, Position a) {
+        if(prise){
+
+        } else {
+            if(d.getX()+1 == a.getX()){
+                return false;
+            }
+        }
+        return false;
     }
-    
 }

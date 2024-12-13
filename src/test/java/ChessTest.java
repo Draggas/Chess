@@ -1,9 +1,9 @@
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import fr.draggas.project.chess.Chess;
+import fr.draggas.project.chess.Position;
 
 public class ChessTest {
     Chess game;
@@ -43,7 +43,6 @@ public class ChessTest {
 
     @Test
     public void TestNotationValide(){
-        game = new Chess(true);
         Assertions.assertTrue(game.estNotationValide("e2-e4"));
         Assertions.assertTrue(game.estNotationValide("d4-d3"));
         Assertions.assertTrue(game.estNotationValide("e8-e5"));
@@ -62,6 +61,15 @@ public class ChessTest {
         Assertions.assertFalse(game.estNotationValide("De2-Dh1"));
         Assertions.assertFalse(game.estNotationValide("Be2x-h1"));
         Assertions.assertFalse(game.estNotationValide("Bxh1"));
+    }
+
+    @Test
+    public void TestVerifPositionCaractere(){
+        Assertions.assertTrue(new Position(1,5).equals(new Position('a', 5)));
+        Assertions.assertEquals(new Position(2,5), new Position('b', 5));
+        Assertions.assertEquals(new Position(5,5), new Position('e', 5));
+        Assertions.assertEquals(new Position(4,5), new Position('d', 5));
+        Assertions.assertEquals(new Position(8,5), new Position('h', 5));
     }
 
     @Test
