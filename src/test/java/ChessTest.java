@@ -98,8 +98,10 @@ public class ChessTest {
         Assertions.assertFalse(game.estDeplacementValide("b5xb4"));
         Assertions.assertTrue(game.estDeplacementValide("b4xa5"));
         Assertions.assertTrue(game.estDeplacementValide("b5xa4"));
-        game.addPieces(new Position('f',3), new Pion(false));
+        game.addPieces(new Position('f',3), new Pion(true));
         Assertions.assertFalse(game.estDeplacementValide("f2-f4"));
+        game.addPieces(new Position('f',6), new Pion(false));
+        Assertions.assertFalse(game.estDeplacementValide("f7-f5"));
 
     }
 
@@ -170,7 +172,6 @@ public class ChessTest {
         Assertions.assertTrue(game.estDeplacementValide("Bb2-a3"));
         Assertions.assertFalse(game.estDeplacementValide("Ba1-g7"));
         Assertions.assertTrue(game.estDeplacementValide("Bc3-g7"));
-        Assertions.assertTrue(game.estDeplacementValide("Ba1-g7"));
         game.addPieces(new Position('f',8), new Cavalier(true));
         Assertions.assertFalse(game.estDeplacementValide("Bg7-f8"));
     }
@@ -189,11 +190,11 @@ public class ChessTest {
         game = new Chess(false);
         game.addPieces(new Position('a',1), new Tour(true));
         game.addPieces(new Position('a',5), new Tour(true));
-        game.addPieces(new Position('b', 5), new Tour(false));
+        game.addPieces(new Position('b', 1), new Tour(false));
         Assertions.assertFalse(game.estDeplacementValide("Ra1-a8"));
         Assertions.assertFalse(game.estDeplacementValide("Ra1-a5"));
         Assertions.assertFalse(game.estDeplacementValide("Ra1-h1"));
-        Assertions.assertTrue(game.estDeplacementValide("Ra1-b5"));
+        Assertions.assertTrue(game.estDeplacementValide("Ra1xb1"));
     }
 
     @Test
@@ -222,7 +223,7 @@ public class ChessTest {
         Assertions.assertFalse(game.estDeplacementValide("Qa1-a8"));
         Assertions.assertFalse(game.estDeplacementValide("Qa1-a5"));
         Assertions.assertFalse(game.estDeplacementValide("Qa1-h8"));
-        Assertions.assertTrue(game.estDeplacementValide("Qa1-g7"));
+        Assertions.assertTrue(game.estDeplacementValide("Qa1xg7"));
     }
 
     @Test
