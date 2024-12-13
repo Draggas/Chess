@@ -21,6 +21,7 @@ public class Chess {
      */
 
     private static final Map<String, Set<Character>> CARA = new HashMap<>();
+    private final String nl = System.lineSeparator();
 
     public Chess(boolean nonVide){
         if(nonVide) initialisationPlateau();
@@ -65,14 +66,16 @@ public class Chess {
                 if(echiquier.containsKey(p)) affichage += echiquier.get(p).affichage();
                 else affichage += affichageVide;
             }
-            if(ligne != 1) affichage += System.lineSeparator();
+            if(ligne != 1) affichage += nl;
         }
         return affichage;
     }
 
     public void deplacer(String mouvement){
         if(estNotationValide(mouvement) && estDeplacementValide(mouvement)){
-
+            System.out.println("---" + nl + "Déplacement effectué : " + mouvement + nl + "---");
+        } else {
+            System.out.println("Erreur");
         }
     }
 
@@ -133,10 +136,10 @@ public class Chess {
         Chess chess = new Chess();
         System.out.println(chess.affichage());
         System.out.println("---");
-        chess.deplacement(new Position('a', 2), false, new Position('a', 4));
-        chess.deplacement(new Position('d', 2), false, new Position('d', 3));
-        chess.deplacement(new Position('e', 7), false, new Position('e', 5));
-        chess.deplacement(new Position('d', 7), false, new Position('d', 5));
+        chess.deplacer("e2-e4");
+        chess.deplacer("e7-e5");
+        chess.deplacer("Ng1-f3");
+        chess.deplacer("Nb8-c6");
         System.out.println(chess.affichage());
     }
 }

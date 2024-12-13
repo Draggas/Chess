@@ -12,8 +12,13 @@ public class Cavalier extends Pieces {
 
     @Override
     public boolean verifMouvement(Position d, Position a) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'mouvement'");
+        for(int x=-2;x<=2;x++){
+            if(x == 0) x = 1;
+            for(int y=-2;y<=2;y++){
+                if(y == 0) y = 1;
+                if(x != y && x*-1 != y*-1 && d.getX()+x == a.getX() && d.getY()+y == a.getY()) return true;
+            }
+        }
+        return false;
     }
-    
 }

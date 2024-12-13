@@ -100,7 +100,7 @@ public class ChessTest {
         Assertions.assertTrue(game.estDeplacementValide("Nb5-c3"));
         Assertions.assertTrue(game.estDeplacementValide("Nc3-e2"));
         Assertions.assertTrue(game.estDeplacementValide("Ne2-d4"));
-        Assertions.assertTrue(game.estDeplacementValide("Nd4-Nf3"));
+        Assertions.assertTrue(game.estDeplacementValide("Nd4-f3"));
         game.addPieces(new Position('e',5), new Cavalier(false));
         Assertions.assertTrue(game.estDeplacementValide("Nf3xe5"));
         game.addPieces(new Position('c',4), new Cavalier(false));
