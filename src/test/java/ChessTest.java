@@ -178,4 +178,19 @@ public class ChessTest {
         game.addPieces(new Position('d',5), new Pion(false));
         Assertions.assertTrue(game.estDeplacementValide("Kb5-a4"));
     }
+
 }
+
+/* Restants :
+ * - Déplacement : Ne passe pas à travers les pièces
+ * - Roi : O-O et O-O-O
+ * - Pion : Promotion
+ * - Pion : Prise en passant
+ * - Système de tour
+ * - Roi : Case d'Echecs et Echec et Mat
+ * - Roi : Obligation de ne plus être en échec
+ * - Notation avec "+" et "#"
+ * - Notation du format "Rxb2" avec vérifications si 2 pièces peut y aller
+ * - Système de création de terrain
+ * - Système de cadence
+ */
