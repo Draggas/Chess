@@ -103,7 +103,7 @@ public class Chess {
         Position depart = new Position(coup.charAt(i++), Character.getNumericValue(coup.charAt(i++)));
         Boolean attrape = ('x' == coup.charAt(i++));
         Position arrivee = new Position(coup.charAt(i++), Character.getNumericValue(coup.charAt(i++)));
-        if(!echiquier.containsKey(depart)) return false;
+        if(!echiquier.containsKey(depart) || depart.equals(arrivee)) return false;
         Boolean test = switch(type){
             case 'K' -> (echiquier.get(depart).getClass() == Roi.class) && echiquier.get(depart).verifMouvement(depart, arrivee);
             case 'Q' -> (echiquier.get(depart).getClass() == Reine.class) && echiquier.get(depart).verifMouvement(depart, arrivee);

@@ -140,8 +140,10 @@ public class ChessTest {
         game = new Chess(false);
         game.addPieces(new Position('a',1), new Tour(true));
         Assertions.assertTrue(game.estDeplacementValide("Ra1-a8"));
-        Assertions.assertTrue(game.estDeplacementValide("Ra8-Rf8"));
-        Assertions.assertTrue(game.estDeplacementValide("Rf8-Rf3"));
-        Assertions.assertTrue(game.estDeplacementValide("Rf3-Rb3"));
+        Assertions.assertTrue(game.estDeplacementValide("Ra8-f8"));
+        Assertions.assertTrue(game.estDeplacementValide("Rf8-f3"));
+        Assertions.assertTrue(game.estDeplacementValide("Rf3-b3"));
+        
+        Assertions.assertFalse(game.estDeplacementValide("Rf3-f3"));
     }
 }
