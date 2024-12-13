@@ -165,4 +165,17 @@ public class ChessTest {
         Assertions.assertTrue(game.estDeplacementValide("Qf8-f3"));
         Assertions.assertTrue(game.estDeplacementValide("Qf3-b3"));
     }
+
+    @Test
+    public void TestDeplacementValideRoi(){
+        game = new Chess(false);
+        game.addPieces(new Position('a',1), new Roi(true));
+        Assertions.assertTrue(game.estDeplacementValide("Ka1-b2"));
+        Assertions.assertTrue(game.estDeplacementValide("Kb2-b3"));
+        Assertions.assertTrue(game.estDeplacementValide("Kb3-b4"));
+        game.addPieces(new Position('d',2), new Cavalier(false));
+        Assertions.assertTrue(game.estDeplacementValide("Kb4-b5"));
+        game.addPieces(new Position('d',5), new Pion(false));
+        Assertions.assertTrue(game.estDeplacementValide("Kb5-a4"));
+    }
 }
