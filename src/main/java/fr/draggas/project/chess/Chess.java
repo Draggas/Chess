@@ -159,7 +159,9 @@ public class Chess {
                 petitRoqueN = false;
             }
         }
-        if(get(d).getClass() == Pion.class && d.getY() == n){
+        if(get(d).getClass() == Pion.class && d.getY() == finale){
+            Pieces p = echiquier.remove(d);
+            echiquier.put(a, new Reine(p.couleurBlanche()));
             return true;
         }
         if((attrape && echiquier.containsKey(a)) || (!attrape && !echiquier.containsKey(a))){
@@ -225,12 +227,9 @@ public class Chess {
     }
 
     public static void main(String[] args) {
-        Chess game = new Chess();
-        Assertions.assertTrue(game.estDeplacementValide("e2-e4"));
-        Assertions.assertTrue(game.estDeplacementValide("Bf1-d3"));
-        Assertions.assertTrue(game.estDeplacementValide("Ng1-f3"));
-        System.out.println(game.affichage());
-        Assertions.assertTrue(game.estDeplacementValide("Ke1-e2"));
+        Chess game = new Chess(false);
+        game.addPieces(new Position('a',7), new Pion(true));
+        game.estDeplacementValide("a7-a8");
         System.out.println(game.affichage());
     }
 }

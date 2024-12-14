@@ -282,20 +282,22 @@ public class ChessTest {
     public void TestPromotion(){
         game = new Chess(false);
         game.addPieces(new Position('a',7), new Pion(true));
-        Assertions.assertTrue(game.estDeplacementValide("a7-Qa8"));
+        Assertions.assertTrue(game.estDeplacementValide("a7-a8"));
+        Assertions.assertEquals(Reine.class, game.get(new Position('a', 8)).getClass());
         game.changeTour();
         game.addPieces(new Position('a',2), new Pion(false));
-        Assertions.assertTrue(game.estDeplacementValide("a2-Qa1"));
+        Assertions.assertTrue(game.estDeplacementValide("a2-a1"));        
+        Assertions.assertEquals(Reine.class, game.get(new Position('a', 1)).getClass());
         game.addPieces(new Position('b',2), new Pion(false));
         game.addPieces(new Position('c',1), new Fou(true));
-        Assertions.assertTrue(game.estDeplacementValide("b2xQc1"));
+        Assertions.assertTrue(game.estDeplacementValide("b2xc1"));
+        Assertions.assertEquals(Reine.class, game.get(new Position('c', 1)).getClass());
         game.addPieces(new Position('d',2), new Pion(true));
         Assertions.assertFalse(game.estDeplacementValide("d2-d1"));
     }
 }
 
 /* Restants :
- * - Pion : Promotion
  * - Pion : Prise en passant
  * - Système de tour
  * - Roi : Obligation de ne plus être en échec

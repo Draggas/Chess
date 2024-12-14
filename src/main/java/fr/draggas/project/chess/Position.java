@@ -17,6 +17,10 @@ public class Position {
         this((int)(position_x - 'a')+1, position_y);
     }
 
+    public Position(char position_x, char position_y){
+        this((int)(position_x - 'a')+1, (int)(position_y - 'a')+1);
+    }
+
     public boolean verifValeur(int x, int y){
         return (position_x >= 1 && position_x <= 8 || position_y >= 1 || position_y <= 8);
     }
