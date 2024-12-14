@@ -311,13 +311,3 @@ public class ChessTest {
         Assertions.assertFalse(game.estDeplacementValide("d4xe3"));
     }
 }
-
-/* Restants :
- * - Pion : Prise en passant
- * - Système de tour
- * - Roi : Obligation de ne plus être en échec
- * - Notation avec "+" et "#"
- * - Notation du format "Rxb2" avec vérifications si 2 pièces peut y aller
- * - Système de création de terrain
- * - Système de cadence
- */
