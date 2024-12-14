@@ -295,6 +295,21 @@ public class ChessTest {
         game.addPieces(new Position('d',2), new Pion(true));
         Assertions.assertFalse(game.estDeplacementValide("d2-d1"));
     }
+
+    @Test
+    public void PriseEnPassant(){
+        game = new Chess(false);
+        game.addPieces(new Position('e',2), new Pion(true));
+        game.addPieces(new Position('d',4), new Pion(false));
+        Assertions.assertTrue(game.estDeplacementValide("e2-e4"));
+        Assertions.assertTrue(game.estDeplacementValide("d4xe3"));
+        
+        game = new Chess(false);
+        game.addPieces(new Position('e',3), new Pion(true));
+        game.addPieces(new Position('d',4), new Pion(false));
+        Assertions.assertTrue(game.estDeplacementValide("e3-e4"));
+        Assertions.assertFalse(game.estDeplacementValide("d4xe3"));
+    }
 }
 
 /* Restants :
