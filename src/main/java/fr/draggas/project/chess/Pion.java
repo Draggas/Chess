@@ -16,7 +16,10 @@ public class Pion extends Pieces {
         int ligneDoubleAvancee = couleurBlanche ? 4 : 5;
         Position entreDoubleAvancee = new Position(a.getX(), (ligneInitiale + direction));
         if(prise && d.getY()+direction == a.getY() && (d.getX()-1 == a.getX() || d.getX()+1 == a.getX())) return true;
-        if(!prise && (d.getX() == a.getX()) && e.caseVide(entreDoubleAvancee) && ((d.getY() == ligneInitiale && a.getY() == ligneDoubleAvancee) || d.getY()+direction == a.getY())) return true;
+        if(!prise && (d.getX() == a.getX())){
+            if(d.getY()+direction == a.getY()) return true;
+            if(e.caseVide(entreDoubleAvancee) && ((d.getY() == ligneInitiale && a.getY() == ligneDoubleAvancee))) return true;
+        }
         return false;
     }
     

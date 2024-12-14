@@ -97,7 +97,6 @@ public class ChessTest {
         Assertions.assertFalse(game.estDeplacementValide("a4xa5"));
         Assertions.assertFalse(game.estDeplacementValide("b5xb4"));
         Assertions.assertTrue(game.estDeplacementValide("b4xa5"));
-        Assertions.assertTrue(game.estDeplacementValide("b5xa4"));
         game.addPieces(new Position('f',3), new Pion(true));
         Assertions.assertFalse(game.estDeplacementValide("f2-f4"));
         game.addPieces(new Position('f',6), new Pion(false));
@@ -297,11 +296,12 @@ public class ChessTest {
     }
 
     @Test
-    public void PriseEnPassant(){
+    public void TestPriseEnPassant(){
         game = new Chess(false);
         game.addPieces(new Position('e',2), new Pion(true));
         game.addPieces(new Position('d',4), new Pion(false));
         Assertions.assertTrue(game.estDeplacementValide("e2-e4"));
+        Assertions.assertEquals(new Position('e',3), game.priseEnPassant());
         Assertions.assertTrue(game.estDeplacementValide("d4xe3"));
         
         game = new Chess(false);

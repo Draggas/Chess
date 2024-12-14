@@ -5,8 +5,6 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
-import org.junit.jupiter.api.Assertions;
-
 public class Chess {
     Map<Position,Pieces> echiquier = new HashMap<>();
     /* y
@@ -28,6 +26,7 @@ public class Chess {
     boolean petitRoqueN = false;
     boolean grandRoqueN = false;
     boolean tourBlanc = true;
+    Position priseEnPassant = null;
     private final String nl = System.lineSeparator();
 
     public Chess(boolean nonVide){
@@ -136,6 +135,25 @@ public class Chess {
     public boolean deplacement(Position d, boolean attrape, Position a){
         int n = tourBlanc ? 1 : 8;
         int finale = tourBlanc ? 7 : 2;
+        int ajout = tourBlanc ? 2 : -2;
+        if(get(d).getClass() == Pion.class) {
+            if(priseEnPassant != null && priseEnPassant.equals(a) && attrape) {
+                Position pionPris = new Position(a.getX(), d.getY());
+                if(echiquier.containsKey(pionPris) && get(pionPris).getClass() == Pion.class &&
+                    get(d).couleurBlanche() != get(pionPris).couleurBlanche()) {
+                    echiquier.remove(pionPris);
+                    echiquier.put(a, echiquier.remove(d));
+                    priseEnPassant = null;
+                    return true;
+                }
+            }
+
+            if(d.getY() + ajout == a.getY() && d.getX() == a.getX()) {
+                priseEnPassant = new Position(a.getX(), d.getY() + (ajout / 2));
+            } else {
+                priseEnPassant = null;
+            }
+        }
         if(get(d).getClass() == Roi.class && d.equals(new Position('e', n))){
             if(tourBlanc){
                 petitRoqueB = false;
@@ -167,9 +185,8 @@ public class Chess {
         if((attrape && echiquier.containsKey(a)) || (!attrape && !echiquier.containsKey(a))){
             echiquier.put(a, echiquier.remove(d));
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     public boolean deplacementRoque(String coup){
@@ -224,6 +241,10 @@ public class Chess {
 
     public void changeTour(){
         this.tourBlanc = !this.tourBlanc;
+    }
+
+    public Position priseEnPassant(){
+        return this.priseEnPassant;
     }
 
     public static void main(String[] args) {

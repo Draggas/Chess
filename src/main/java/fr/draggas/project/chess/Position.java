@@ -18,7 +18,7 @@ public class Position {
     }
 
     public Position(char position_x, char position_y){
-        this((int)(position_x - 'a')+1, (int)(position_y - 'a')+1);
+        this((int)(position_x - 'a')+1, Character.getNumericValue(position_y));
     }
 
     public boolean verifValeur(int x, int y){
