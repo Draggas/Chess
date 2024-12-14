@@ -23,6 +23,11 @@ public class Chess {
      */
 
     private static final Map<String, Set<Character>> CARA = new HashMap<>();
+    boolean petitRoqueB = false;
+    boolean grandRoqueB = false;
+    boolean petitRoqueN = false;
+    boolean grandRoqueN = false;
+    boolean tourBlanc = true;
     private final String nl = System.lineSeparator();
 
     public Chess(boolean nonVide){
@@ -49,6 +54,10 @@ public class Chess {
                 echiquier.put(new Position(colonne,i*5+2), new Pion((i==0)));
             }
         }
+        petitRoqueB = true;
+        grandRoqueB = true;
+        petitRoqueN = true;
+        grandRoqueN = true;
     }
 
     public void initialisationValidationDeCara(){
@@ -65,7 +74,7 @@ public class Chess {
         for(int ligne=8;ligne>=1;ligne--){
             for(int colonne=1;colonne<=8;colonne++){
                 p = new Position(colonne, ligne);
-                if(echiquier.containsKey(p)) affichage += echiquier.get(p).affichage();
+                if(echiquier.containsKey(p)) affichage += get(p).affichage();
                 else affichage += affichageVide;
             }
             if(ligne != 1) affichage += nl;
@@ -99,6 +108,11 @@ public class Chess {
     }
 
     public boolean estDeplacementValide(String coup) { // Exemple : e2-e4
+        if(coup.equals("O-O") && verifPetitRoque() || coup.equals("O-O-O") && verifGrandRoque()){
+            return deplacementRoque(coup);
+        } else if(coup.equals("O-O") || coup.equals("O-O-O")){
+            return false;
+        }
         char type = 'P';
         int i = 0;
         if(coup.length() == 6) type = coup.charAt(i++);
@@ -106,26 +120,89 @@ public class Chess {
         Boolean attrape = ('x' == coup.charAt(i++));
         Position arrivee = new Position(coup.charAt(i++), Character.getNumericValue(coup.charAt(i++)));
         if(!echiquier.containsKey(depart) || depart.equals(arrivee)) return false;
-        if(attrape && echiquier.containsKey(arrivee) && (echiquier.get(depart).couleurBlanche() == echiquier.get(arrivee).couleurBlanche())) return false;
-        Boolean test = switch(type){
-            case 'K' -> (echiquier.get(depart).getClass() == Roi.class) && echiquier.get(depart).verifMouvement(depart, arrivee, this);
-            case 'Q' -> (echiquier.get(depart).getClass() == Reine.class) && echiquier.get(depart).verifMouvement(depart, arrivee, this);
-            case 'R' -> (echiquier.get(depart).getClass() == Tour.class) && echiquier.get(depart).verifMouvement(depart, arrivee, this);
-            case 'B' -> (echiquier.get(depart).getClass() == Fou.class) && echiquier.get(depart).verifMouvement(depart, arrivee, this);
-            case 'N' -> (echiquier.get(depart).getClass() == Cavalier.class) && echiquier.get(depart).verifMouvement(depart, arrivee, this);
-            case 'P' -> (echiquier.get(depart).getClass() == Pion.class) && ((Pion)echiquier.get(depart)).verifMouvement(depart, attrape, arrivee, this);
-            default -> throw new NoSuchElementException();
-        };
+        if(attrape && echiquier.containsKey(arrivee) && (get(depart).couleurBlanche() == get(arrivee).couleurBlanche())) return false;
+        Boolean test = switch (type) {
+            case 'K' -> (get(depart).getClass() == Roi.class) && get(depart).verifMouvement(depart, arrivee, this);
+            case 'Q' -> (get(depart).getClass() == Reine.class) && get(depart).verifMouvement(depart, arrivee, this);
+            case 'R' -> (get(depart).getClass() == Tour.class) && get(depart).verifMouvement(depart, arrivee, this);
+            case 'B' -> (get(depart).getClass() == Fou.class) && get(depart).verifMouvement(depart, arrivee, this);
+            case 'N' -> (get(depart).getClass() == Cavalier.class) && get(depart).verifMouvement(depart, arrivee, this);
+            case 'P' -> (get(depart).getClass() == Pion.class) && ((Pion)get(depart)).verifMouvement(depart, attrape, arrivee, this);
+            default -> throw new NoSuchElementException("Type inconnu : " + type);
+        };        
         return test && deplacement(depart, attrape, arrivee);
     }
 
     public boolean deplacement(Position d, boolean attrape, Position a){
+        int n = tourBlanc ? 1 : 8;
+        int finale = tourBlanc ? 7 : 2;
+        if(get(d).getClass() == Roi.class && d.equals(new Position('e', n))){
+            if(tourBlanc){
+                petitRoqueB = false;
+                grandRoqueB = false;
+            } else {
+                petitRoqueN = false;
+                grandRoqueN = false;
+            }
+        }
+        if(get(d).getClass() == Tour.class & d.equals(new Position('a',n))){
+            if(tourBlanc){
+                grandRoqueB = false;
+            } else {
+                grandRoqueN = false;
+            }
+        }
+        if(get(d).getClass() == Tour.class & d.equals(new Position('h',n))){
+            if(tourBlanc){
+                petitRoqueB = false;
+            } else {
+                petitRoqueN = false;
+            }
+        }
+        if(get(d).getClass() == Pion.class && d.getY() == n){
+            return true;
+        }
         if((attrape && echiquier.containsKey(a)) || (!attrape && !echiquier.containsKey(a))){
             echiquier.put(a, echiquier.remove(d));
             return true;
         } else {
             return false;
         }
+    }
+
+    public boolean deplacementRoque(String coup){
+        int n = tourBlanc ? 1 : 8;
+        if(coup.equals("O-O")){
+            echiquier.put(new Position('f', n), echiquier.remove(new Position('h', n)));
+            echiquier.put(new Position('g', n), echiquier.remove(new Position('e', n)));
+        } else {
+            echiquier.put(new Position('d', n), echiquier.remove(new Position('a', n)));
+            echiquier.put(new Position('c', n), echiquier.remove(new Position('e', n)));
+        }
+        return true;
+    }
+
+    public boolean verifPetitRoque(){
+        if((tourBlanc && petitRoqueB) || (!tourBlanc && petitRoqueN)){
+            int n = tourBlanc ? 1 : 8;
+            return  get(new Position('e', n)).getClass() == Roi.class && 
+                    caseVide(new Position('f', n)) &&
+                    caseVide(new Position('g', n)) &&
+                    get(new Position('h', n)).getClass() == Tour.class;
+        }
+        return false;
+    }
+
+    public boolean verifGrandRoque(){
+        if((tourBlanc && grandRoqueB) || (!tourBlanc && grandRoqueN)){
+            int n = tourBlanc ? 1 : 8;
+            return  get(new Position('e', n)).getClass() == Roi.class && 
+                    caseVide(new Position('d', n)) &&
+                    caseVide(new Position('c', n)) &&
+                    caseVide(new Position('b', n)) &&
+                    get(new Position('a', n)).getClass() == Tour.class;
+        }
+        return false;
     }
 
     public void addPieces(Position pose, Pieces p){
@@ -135,26 +212,25 @@ public class Chess {
         echiquier.remove(pose);
     }
 
+    public Pieces get(Position pose){
+        return echiquier.get(pose);
+    }
+
     public boolean caseVide(Position pose){
         return !echiquier.containsKey(pose);
     }
 
+    public void changeTour(){
+        this.tourBlanc = !this.tourBlanc;
+    }
+
     public static void main(String[] args) {
-        Chess chess = new Chess();
-        System.out.println(chess.affichage());
-        System.out.println("---");
-        chess.deplacer("e2-e4");
-        System.out.println(chess.affichage());
-        chess.deplacer("e7-e5");
-        System.out.println(chess.affichage());
-        chess.deplacer("Ng1-f3");
-        System.out.println(chess.affichage());
-        chess.deplacer("Nb8-c6");
-        System.out.println(chess.affichage());
-        chess.deplacer("Bf1-c4");
-        System.out.println(chess.affichage());
-        chess.deplacer("Ng8-f6");
-        System.out.println(chess.affichage());
-        System.out.println("---");
+        Chess game = new Chess();
+        Assertions.assertTrue(game.estDeplacementValide("e2-e4"));
+        Assertions.assertTrue(game.estDeplacementValide("Bf1-d3"));
+        Assertions.assertTrue(game.estDeplacementValide("Ng1-f3"));
+        System.out.println(game.affichage());
+        Assertions.assertTrue(game.estDeplacementValide("Ke1-e2"));
+        System.out.println(game.affichage());
     }
 }
