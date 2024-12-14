@@ -242,6 +242,41 @@ public class ChessTest {
         Assertions.assertFalse(game.estDeplacementValide("Ka5-a6"));
     }
 
+    @Test
+    public void TestRoque(){
+        game = new Chess();
+        Assertions.assertTrue(game.estDeplacementValide("e2-e4"));
+        Assertions.assertFalse(game.estDeplacementValide("O-O"));
+        Assertions.assertFalse(game.estDeplacementValide("O-O-O"));
+        Assertions.assertTrue(game.estDeplacementValide("Bf1-e2"));
+        Assertions.assertTrue(game.estDeplacementValide("Ng1-f3"));
+        Assertions.assertTrue(game.estDeplacementValide("O-O"));
+        game.changeTour();
+        Assertions.assertFalse(game.estDeplacementValide("O-O"));
+        Assertions.assertFalse(game.estDeplacementValide("O-O-O"));
+        Assertions.assertTrue(game.estDeplacementValide("d7-d5"));
+        Assertions.assertTrue(game.estDeplacementValide("Qd8-d6"));
+        Assertions.assertTrue(game.estDeplacementValide("Bc8-d7"));
+        Assertions.assertTrue(game.estDeplacementValide("Nb8-c6"));
+        Assertions.assertFalse(game.estDeplacementValide("O-O"));
+        Assertions.assertTrue(game.estDeplacementValide("O-O-O"));
+        
+        game = new Chess();
+        Assertions.assertFalse(game.estDeplacementValide("e2-e4"));
+        Assertions.assertTrue(game.estDeplacementValide("Bf1-d3"));
+        Assertions.assertTrue(game.estDeplacementValide("Ng1-f3"));
+        Assertions.assertTrue(game.estDeplacementValide("Ke1-Ke2"));
+        Assertions.assertTrue(game.estDeplacementValide("Ke2-Ke1"));
+        Assertions.assertFalse(game.estDeplacementValide("O-O"));
+        game.changeTour();
+        Assertions.assertTrue(game.estDeplacementValide("d7-d5"));
+        Assertions.assertTrue(game.estDeplacementValide("Qd8-d6"));
+        Assertions.assertTrue(game.estDeplacementValide("Bc8-d7"));
+        Assertions.assertTrue(game.estDeplacementValide("Nb8-c6"));
+        Assertions.assertTrue(game.estDeplacementValide("Ra8-Rb8"));
+        Assertions.assertTrue(game.estDeplacementValide("Rb8-Ra8"));
+        Assertions.assertFalse(game.estDeplacementValide("O-O-O"));
+    }
 }
 
 /* Restants :
