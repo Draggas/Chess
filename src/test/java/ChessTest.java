@@ -277,6 +277,21 @@ public class ChessTest {
         Assertions.assertTrue(game.estDeplacementValide("Rb8-a8"));
         Assertions.assertFalse(game.estDeplacementValide("O-O-O"));
     }
+
+    @Test
+    public void TestPromotion(){
+        game = new Chess(false);
+        game.addPieces(new Position('a',7), new Pion(true));
+        Assertions.assertTrue(game.estDeplacementValide("a7-Qa8"));
+        game.changeTour();
+        game.addPieces(new Position('a',2), new Pion(false));
+        Assertions.assertTrue(game.estDeplacementValide("a2-Qa1"));
+        game.addPieces(new Position('b',2), new Pion(false));
+        game.addPieces(new Position('c',1), new Fou(true));
+        Assertions.assertTrue(game.estDeplacementValide("b2xQc1"));
+        game.addPieces(new Position('d',2), new Pion(true));
+        Assertions.assertFalse(game.estDeplacementValide("d2-d1"));
+    }
 }
 
 /* Restants :
