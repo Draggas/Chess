@@ -75,27 +75,36 @@ public class ChessTest {
     public void TestDeplacementValidePion(){
         Assertions.assertTrue(game.estDeplacementValide("e2-e4"));
         Assertions.assertTrue(game.estDeplacementValide("d2-d3"));
+        game.changeTour();
         Assertions.assertTrue(game.estDeplacementValide("e7-e5"));
         Assertions.assertTrue(game.estDeplacementValide("d7-d5"));
+        game.changeTour();
         Assertions.assertTrue(game.estDeplacementValide("e4xd5"));
+        game.changeTour();
         Assertions.assertTrue(game.estDeplacementValide("c7-c6"));
+        game.changeTour();
         Assertions.assertTrue(game.estDeplacementValide("d5xc6"));
+        game.changeTour();
         Assertions.assertTrue(game.estDeplacementValide("b7xc6"));
 
         Assertions.assertFalse(game.estDeplacementValide("a2-a5"));
         Assertions.assertFalse(game.estDeplacementValide("a6-a4"));
         Assertions.assertFalse(game.estDeplacementValide("a3-a8"));
         Assertions.assertFalse(game.estDeplacementValide("b3-a4"));
-
+        game.changeTour();
         Assertions.assertTrue(game.estDeplacementValide("a2-a4"));
+        game.changeTour();
         Assertions.assertTrue(game.estDeplacementValide("a7-a5"));
         Assertions.assertFalse(game.estDeplacementValide("a4-a5"));
         Assertions.assertFalse(game.estDeplacementValide("a5-a4"));
+        game.changeTour();
         Assertions.assertTrue(game.estDeplacementValide("b2-b4"));
         game.addPieces(new Position('b',7), new Pion(false));
+        game.changeTour();
         Assertions.assertTrue(game.estDeplacementValide("b7-b5"));
         Assertions.assertFalse(game.estDeplacementValide("a4xa5"));
         Assertions.assertFalse(game.estDeplacementValide("b5xb4"));
+        game.changeTour();
         Assertions.assertTrue(game.estDeplacementValide("b4xa5"));
         game.addPieces(new Position('f',3), new Pion(true));
         Assertions.assertFalse(game.estDeplacementValide("f2-f4"));
@@ -170,6 +179,7 @@ public class ChessTest {
         Assertions.assertFalse(game.estDeplacementValide("Ba1-g7"));
         Assertions.assertTrue(game.estDeplacementValide("Bb2-a3"));
         Assertions.assertFalse(game.estDeplacementValide("Ba1-g7"));
+        game.changeTour();
         Assertions.assertTrue(game.estDeplacementValide("Bc3-g7"));
         game.addPieces(new Position('f',8), new Cavalier(true));
         Assertions.assertFalse(game.estDeplacementValide("Bg7-f8"));
@@ -302,6 +312,7 @@ public class ChessTest {
         game.addPieces(new Position('d',4), new Pion(false));
         Assertions.assertTrue(game.estDeplacementValide("e2-e4"));
         Assertions.assertEquals(new Position('e',3), game.priseEnPassant());
+        game.changeTour();
         Assertions.assertTrue(game.estDeplacementValide("d4xe3"));
         
         game = new Chess(false);

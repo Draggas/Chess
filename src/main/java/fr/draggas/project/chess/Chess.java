@@ -3,9 +3,8 @@ package fr.draggas.project.chess;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Scanner;
 import java.util.Set;
-
-import org.junit.jupiter.api.Assertions;
 
 public class Chess {
     Map<Position,Pieces> echiquier = new HashMap<>();
@@ -83,12 +82,31 @@ public class Chess {
         return affichage;
     }
 
-    public void deplacer(String mouvement){
+    public void coupJouer(String mouvement){
+        System.out.println("Joueur joue \"" + mouvement + "\"");
         if(estNotationValide(mouvement) && estDeplacementValide(mouvement)){
-            System.out.println("---" + nl + "Déplacement effectué : " + mouvement + nl + "---");
+            tourBlanc = !tourBlanc;
+            System.out.println("Tour joueur suivant");
         } else {
-            System.out.println("Erreur");
+            System.out.println("Erreur dans la notation");
+            System.out.println("Tour même joueur");
         }
+    }
+
+    public void lancementJeu(){
+        String mouvement = "";
+        Scanner scanner = new Scanner(System.in);
+        while(true){
+            System.out.println(affichage());
+            mouvement = scanner.nextLine();
+            if(mouvement.equals("exit")){
+                System.out.println("Fin du jeu");
+                break;
+            }
+            coupJouer(mouvement);
+            System.out.println("--------------------------");
+        }
+        scanner.close();
     }
 
     public boolean estNotationValide(String coup) { // Exemple : Kb8xd4
@@ -122,6 +140,7 @@ public class Chess {
         Position arrivee = new Position(coup.charAt(i++), Character.getNumericValue(coup.charAt(i++)));
         if(!echiquier.containsKey(depart) || depart.equals(arrivee)) return false;
         if(attrape && echiquier.containsKey(arrivee) && (get(depart).couleurBlanche() == get(arrivee).couleurBlanche())) return false;
+        if(tourBlanc != get(depart).couleurBlanche) return false;
         Boolean test = switch (type) {
             case 'K' -> (get(depart).getClass() == Roi.class) && get(depart).verifMouvement(depart, arrivee, this);
             case 'Q' -> (get(depart).getClass() == Reine.class) && get(depart).verifMouvement(depart, arrivee, this);
@@ -297,10 +316,7 @@ public class Chess {
     }
 
     public static void main(String[] args) {
-        Chess game = new Chess(false);
-        game.addPieces(new Position('e',2), new Roi(true));
-        game.addPieces(new Position('d',8), new Tour(false));
-        game.temporaireDeplacementValide("Ke2-d2");
-        System.out.println(game.affichage());
+        Chess game = new Chess();
+        game.lancementJeu();
     }
 }
