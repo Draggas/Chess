@@ -316,10 +316,10 @@ public class ChessTest {
         game = new Chess(false);
         game.addPieces(new Position('e',2), new Roi(true));
         game.addPieces(new Position('d',8), new Tour(false));
-        Assertions.assertFalse(game.estDeplacementValide("Ke2-d2"));
-        Assertions.assertFalse(game.estDeplacementValide("Ke2-d3"));
-        Assertions.assertFalse(game.estDeplacementValide("Ke2-d4"));
+        Assertions.assertFalse(game.temporaireDeplacementValide("Ke2-d2"));
+        Assertions.assertFalse(game.temporaireDeplacementValide("Ke2-d3"));
+        Assertions.assertFalse(game.temporaireDeplacementValide("Ke2-d4"));
         game.addPieces(new Position('d',4), new Pion(false));
-        Assertions.assertFalse(game.estDeplacementValide("Ke2-e3"));
+        Assertions.assertFalse(game.temporaireDeplacementValide("Ke2-e3"));
     }
 }

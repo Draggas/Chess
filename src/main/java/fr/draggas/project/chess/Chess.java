@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+import org.junit.jupiter.api.Assertions;
+
 public class Chess {
     Map<Position,Pieces> echiquier = new HashMap<>();
     /* y
@@ -132,6 +134,53 @@ public class Chess {
         return test && deplacement(depart, attrape, arrivee);
     }
 
+    public boolean verifCaseEchec(Position p, boolean couleurBlanche){
+        Boolean echec = false;
+        for(Position e : echiquier.keySet()){
+            Pieces o = get(e);
+            char c = o.toString().charAt(0);
+            if(o.couleurBlanche() != couleurBlanche){
+                if (o.getClass() == Pion.class) {
+                    echec = ((Pion)o).verifMouvement(e, true, p, this);
+                } else {
+                    System.out.println("Ca teste bien");
+                    echec = o.verifMouvement(e, p, this);
+                }
+            }
+            if(echec) return true;
+        }
+        return echec;
+    }
+
+    public boolean temporaireDeplacementValide(String coup) { // Exemple : e2-e4
+        if(coup.equals("O-O") && verifPetitRoque() || coup.equals("O-O-O") && verifGrandRoque()){
+            return deplacementRoque(coup);
+        } else if(coup.equals("O-O") || coup.equals("O-O-O")){
+            return false;
+        }
+        char type = 'P';
+        int i = 0;
+        if(coup.length() == 6) type = coup.charAt(i++);
+        Position depart = new Position(coup.charAt(i++), Character.getNumericValue(coup.charAt(i++)));
+        Boolean attrape = ('x' == coup.charAt(i++));
+        Position arrivee = new Position(coup.charAt(i++), Character.getNumericValue(coup.charAt(i++)));
+        if(!echiquier.containsKey(depart) || depart.equals(arrivee)) return false;
+        if(attrape && echiquier.containsKey(arrivee) && (get(depart).couleurBlanche() == get(arrivee).couleurBlanche())) return false;
+        Boolean test = switch (type) {
+            case 'K' -> (get(depart).getClass() == Roi.class) && get(depart).verifMouvement(depart, arrivee, this);
+            case 'Q' -> (get(depart).getClass() == Reine.class) && get(depart).verifMouvement(depart, arrivee, this);
+            case 'R' -> (get(depart).getClass() == Tour.class) && get(depart).verifMouvement(depart, arrivee, this);
+            case 'B' -> (get(depart).getClass() == Fou.class) && get(depart).verifMouvement(depart, arrivee, this);
+            case 'N' -> (get(depart).getClass() == Cavalier.class) && get(depart).verifMouvement(depart, arrivee, this);
+            case 'P' -> (get(depart).getClass() == Pion.class) && ((Pion)get(depart)).verifMouvement(depart, attrape, arrivee, this);
+            default -> throw new NoSuchElementException("Type inconnu : " + type);
+        };
+        if(get(depart).getClass() == Roi.class){
+            return test && !verifCaseEchec(arrivee, get(depart).couleurBlanche()); 
+        }  
+        return test;
+    }
+
     public boolean deplacement(Position d, boolean attrape, Position a){
         int n = tourBlanc ? 1 : 8;
         int finale = tourBlanc ? 7 : 2;
@@ -249,8 +298,9 @@ public class Chess {
 
     public static void main(String[] args) {
         Chess game = new Chess(false);
-        game.addPieces(new Position('a',7), new Pion(true));
-        game.estDeplacementValide("a7-a8");
+        game.addPieces(new Position('e',2), new Roi(true));
+        game.addPieces(new Position('d',8), new Tour(false));
+        game.temporaireDeplacementValide("Ke2-d2");
         System.out.println(game.affichage());
     }
 }
