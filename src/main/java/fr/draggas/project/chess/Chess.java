@@ -1,10 +1,18 @@
 package fr.draggas.project.chess;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.Stack;
 
 public class Chess {
     Map<Position,Pieces> echiquier = new HashMap<>();
@@ -29,6 +37,8 @@ public class Chess {
     boolean tourBlanc = true;
     Position priseEnPassant = null;
     private final String nl = System.lineSeparator();
+    Stack<String> historique = new Stack<>();
+    String filename = "res/historique.txt";
 
     public Chess(boolean nonVide){
         if(nonVide) initialisationPlateau();
@@ -40,7 +50,6 @@ public class Chess {
     }
     
     public void initialisationPlateau(){
-        
         for(int i=0;i<2;i++){
             echiquier.put(new Position(1,i*7+1), new Tour((i==0)));
             echiquier.put(new Position(2,i*7+1), new Cavalier((i==0)));
@@ -85,6 +94,7 @@ public class Chess {
     public void coupJouer(String mouvement){
         System.out.println("Joueur joue \"" + mouvement + "\"");
         if(estNotationValide(mouvement) && estDeplacementValide(mouvement)){
+            historique.add(mouvement);
             tourBlanc = !tourBlanc;
             System.out.println("Tour joueur suivant");
         } else {
@@ -104,6 +114,8 @@ public class Chess {
                 break;
             }
             coupJouer(mouvement);
+            System.out.println("--------------------------");
+            System.out.println(lireSauvegarde());
             System.out.println("--------------------------");
         }
         scanner.close();
@@ -313,6 +325,26 @@ public class Chess {
 
     public Position priseEnPassant(){
         return this.priseEnPassant;
+    }
+
+    public String lireSauvegarde(){
+        return historique.toString();
+    }
+
+    public Stack<String> historique(){
+        return historique;
+    }
+    public static void sauvegarderPartie(Stack<String> stack, String fileName) throws IOException {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
+            oos.writeObject(stack);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public static Stack<String> recupererSauvegarde(String fileName) throws IOException, ClassNotFoundException {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
+            return (Stack<String>) ois.readObject();
+        }
     }
 
     public static void main(String[] args) {
