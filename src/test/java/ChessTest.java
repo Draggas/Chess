@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -332,5 +334,17 @@ public class ChessTest {
         Assertions.assertFalse(game.temporaireDeplacementValide("Ke2-d4"));
         game.addPieces(new Position('d',4), new Pion(false));
         Assertions.assertFalse(game.temporaireDeplacementValide("Ke2-e3"));
+    }
+
+    @Test
+    public void TestSauvegarde() throws ClassNotFoundException, IOException{
+        Assertions.assertTrue(game.estNotationValide("e2-e4"));
+        Assertions.assertTrue(game.estNotationValide("d4-d3"));
+        Assertions.assertTrue(game.estNotationValide("e8-e5"));
+        Assertions.assertTrue(game.estNotationValide("Rd7-d6"));
+        Chess.sauvegarderPartie(game.historique(), "test.txt");
+        Chess g = new Chess(true);
+        Chess.recupererSauvegarde("test.txt");
+        Assertions.assertEquals(game.lireSauvegarde(), g.lireSauvegarde());
     }
 }
