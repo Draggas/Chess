@@ -1,5 +1,8 @@
 package fr.draggas.project.chess;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Fou extends Pieces {
 
     public Fou(boolean couleurBlanche) {
@@ -9,20 +12,40 @@ public class Fou extends Pieces {
     public String affichage() {
         return super.affichageCouleur(name);
     }
-
+    
     @Override
-    public boolean verifMouvement(Position d, Position a, Chess e) {
-        boolean[] nonBloque = {true, true, true, true};
-        for(int i=1;i<=7;i++){
-            if(nonBloque[0] && (d.getX()+i == a.getX()) && (d.getY()+i == a.getY())) return true;
-            if(nonBloque[1] && (d.getX()-i == a.getX()) && (d.getY()+i == a.getY())) return true;
-            if(nonBloque[2] && (d.getX()+i == a.getX()) && (d.getY()-i == a.getY())) return true;
-            if(nonBloque[3] && (d.getX()-i == a.getX()) && (d.getY()-i == a.getY())) return true;
-            if(nonBloque[0] && a.verifValeur(d.getX()+i, d.getY()+i) && !e.caseVide(new Position(d.getX()+i, d.getY()+i))) nonBloque[0] = false;
-            if(nonBloque[1] && a.verifValeur(d.getX()-i, d.getY()+i) && !e.caseVide(new Position(d.getX()-i, d.getY()+i))) nonBloque[1] = false;
-            if(nonBloque[2] && a.verifValeur(d.getX()+i, d.getY()-i) && !e.caseVide(new Position(d.getX()+i, d.getY()-i))) nonBloque[2] = false;
-            if(nonBloque[3] && a.verifValeur(d.getX()-i, d.getY()-i) && !e.caseVide(new Position(d.getX()-i, d.getY()-i))) nonBloque[3] = false;
+    public List<Position> moovePossible(Position p, Chess e) {
+        List<Position> l = new ArrayList<>();
+        
+        checkDirection(l, p, e, 1, 1);
+        checkDirection(l, p, e, -1, 1);
+        checkDirection(l, p, e, 1, -1);
+        checkDirection(l, p, e, -1, -1);
+    
+        return l;
+    }
+    
+    private void checkDirection(List<Position> l, Position p, Chess e, int dx, int dy) {
+        int x = p.getX();
+        int y = p.getY();
+    
+        while (true) {
+            x += dx;
+            y += dy;
+
+            if (!Position.verifValeur(x, y)){
+                break;
+            }
+            Position test = new Position(x, y);
+
+            if (e.caseVide(test)) {
+                l.add(test);
+            } else {
+                if (e.get(test).couleurBlanche() != couleurBlanche()) {
+                    l.add(test);
+                }
+                break;
+            }
         }
-        return false;
     }
 }

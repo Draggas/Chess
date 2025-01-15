@@ -1,5 +1,8 @@
 package fr.draggas.project.chess;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Tour extends Pieces {
 
     public Tour(boolean couleurBlanche) {
@@ -11,24 +14,36 @@ public class Tour extends Pieces {
     }
 
     @Override
-    public boolean verifMouvement(Position d, Position a, Chess e) {
-        if(d.getX() == a.getX()){
-            int incr = 0;
-            if(d.getY() > a.getY()) incr--;
-            if(d.getY() < a.getY()) incr++;
-            for(int i = d.getY() + incr; i != a.getY(); i = i + incr){
-                if(!e.caseVide(new Position(d.getX(), i))) return false;
+    public List<Position> moovePossible(Position p, Chess e) {
+        List<Position> l = new ArrayList<>();
+        
+        checkDirection(l, p, e, 1, 0);
+        checkDirection(l, p, e, -1, 0);
+        checkDirection(l, p, e, 0, 1);
+        checkDirection(l, p, e, 0, -1);
+        
+        return l;
+    }
+
+    private void checkDirection(List<Position> l, Position p, Chess e, int dx, int dy) {
+        int x = p.getX();
+        int y = p.getY();
+        
+        while (true) {
+            x += dx;
+            y += dy;
+            if (!Position.verifValeur(x, y)){
+                break;
             }
-            return true;
-        } else if(d.getY() == a.getY()){
-            int incr = 0;
-            if(d.getX() > a.getX()) incr--;
-            if(d.getX() < a.getX()) incr++;
-            for(int i = d.getX() + incr; i != a.getX(); i += incr){
-                if(!e.caseVide(new Position(i, d.getY()))) return false;
+            Position test = new Position(x, y);
+            if (e.caseVide(test)) {
+                l.add(test);
+            } else {
+                if (e.get(test).couleurBlanche() != couleurBlanche()) {
+                    l.add(test);
+                }
+                break;
             }
-            return true;
         }
-        return false;
     }
 }

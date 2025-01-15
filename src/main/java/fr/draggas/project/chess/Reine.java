@@ -1,5 +1,8 @@
 package fr.draggas.project.chess;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Reine extends Pieces {
 
     public Reine(boolean couleurBlanche) {
@@ -9,15 +12,14 @@ public class Reine extends Pieces {
     public String affichage() {
         return super.affichageCouleur(name);
     }
-
+    
     @Override
-    public boolean verifMouvement(Position d, Position a, Chess e) {
+    public List<Position> moovePossible(Position p, Chess e){
+        List<Position> l = new ArrayList<>();
         Tour t = new Tour(couleurBlanche);
         Fou f = new Fou(couleurBlanche);
-        if(d.getX() == a.getX() || d.getY() == a.getY()){
-            return t.verifMouvement(d, a, e);
-        } else {
-            return f.verifMouvement(d, a, e);
-        }
+        l.addAll(t.moovePossible(p, e));
+        l.addAll(f.moovePossible(p, e));
+        return l;
     }
 }

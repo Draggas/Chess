@@ -1,5 +1,8 @@
 package fr.draggas.project.chess;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Cavalier extends Pieces {
 
     public Cavalier(boolean couleurBlanche) {
@@ -11,14 +14,27 @@ public class Cavalier extends Pieces {
     }
 
     @Override
-    public boolean verifMouvement(Position d, Position a, Chess e) {
-        for(int x=-2;x<=2;x++){
-            if(x == 0) x = 1;
-            for(int y=-2;y<=2;y++){
-                if(y == 0) y = 1;
-                if(x != y && x != y*-1 && x*-1 != y && d.getX()+x == a.getX() && d.getY()+y == a.getY()) return true;
+    public List<Position> moovePossible(Position p, Chess e) {
+        List<Position> l = new ArrayList<>();
+        
+        int[][] moves = {
+            {2, 1}, {2, -1}, {-2, 1}, {-2, -1},
+            {1, 2}, {1, -2}, {-1, 2}, {-1, -2}
+        };
+    
+        for (int[] move : moves) {
+            int x = p.getX() + move[0];
+            int y = p.getY() + move[1];
+            if(Position.verifValeur(x, y)){
+                Position test = new Position(x, y);
+                if (e.caseVide(test) || e.get(test).couleurBlanche() != couleurBlanche()) {
+                    l.add(test);
+                }
             }
+
         }
-        return false;
+    
+        return l;
     }
+    
 }

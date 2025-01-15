@@ -5,12 +5,8 @@ public class Position {
     int position_y;
 
     public Position(int position_x, int position_y){
-        if(verifValeur(position_x, position_y)){
-            this.position_x = position_x;
-            this.position_y = position_y;
-        } else {
-            System.out.println("Invalide valeurs");
-        }
+        this.position_x = position_x;
+        this.position_y = position_y;
     }
 
     public Position(char position_x, int position_y){
@@ -21,11 +17,18 @@ public class Position {
         this((int)(position_x - 'a')+1, Character.getNumericValue(position_y));
     }
 
-    public boolean verifValeur(int x, int y){
-        return (position_x >= 1 && position_x <= 8 || position_y >= 1 || position_y <= 8);
+    public Position(String s){
+        this(s.charAt(0), Character.getNumericValue(s.charAt(1)));
     }
 
-    // Redéfinition de Hashcode et de Equals pour valider le ContainsKey
+    public static boolean verifValeur(int x, int y){
+        return (x >= 1 && x <= 8 && y >= 1 && y <= 8);
+    }
+
+    public static boolean verifValeur(Position p){
+        return Position.verifValeur(p.getX(), p.getY());
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;

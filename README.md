@@ -1,8 +1,13 @@
-Tâches restantes du Tag1 : Chess Sans Graphique :
--Clarification V1
-- Notation du format "a2" clique sur la pièce, affiche les coups possibles, "b2" réalise ce coup là
-- Ajout des Notations "+" "#"
--Clarification du code
+-Refaire Roi.java
+-Remettre le Chess.java en ordre
+-Fais en sorte que les autres mooves sont pas faisables quand le roi est en échec
+
+
+Clarification du code :
+- Clarification des méthodes
+- Qualité
+- Tests
+- Documentation
 
 Tag2 : Chess avec Graphique :
 - Système de création de terrain
@@ -12,8 +17,3 @@ Tag2 : Chess avec Graphique :
 
 Tag3 : Chess Mobile :
 
-Clarification du code :
-- Clarification des méthodes
-- Qualité
-- Tests
-- Documentation

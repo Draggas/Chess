@@ -1,8 +1,10 @@
 package fr.draggas.project.chess;
 
+import java.util.List;
+
 public abstract class Pieces {
-    final String name; // promotion --> changement de pièces donc pas besoin de changer de nom
-    final boolean couleurBlanche; // pas de changement de couleur
+    final String name;
+    final boolean couleurBlanche;
 
     public Pieces(String name, boolean couleurBlanche) {
         this.name = name;
@@ -16,7 +18,7 @@ public abstract class Pieces {
     
     public abstract String affichage();
 
-    public abstract boolean verifMouvement(Position d, Position a, Chess e);
+    public abstract List<Position> moovePossible(Position p, Chess e);
 
     public String getName(){
         return name;
