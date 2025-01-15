@@ -1,13 +1,12 @@
--Refaire Roi.java
--Remettre le Chess.java en ordre
--Fais en sorte que les autres mooves sont pas faisables quand le roi est en échec
+- Ajouter La Promotion Dans Chess.java
+- Refaire Pion.java
+- Refaire MoovePossible Selon Si Le Roi est En Echec
+- Ajouter un TousCoupsPossibles avec les coups possible en rouge
+- Ajouter la fonction de jeu
+- Ajouter la fonction de sauvegarde
 
-
-Clarification du code :
-- Clarification des méthodes
-- Qualité
-- Tests
-- Documentation
+TESTER
+ET FIN DE LA 1ERE PARTIE
 
 Tag2 : Chess avec Graphique :
 - Système de création de terrain

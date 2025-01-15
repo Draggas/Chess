@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Roi extends Pieces {
+    private boolean roque;
+    private boolean grandRoque;
 
     public Roi(boolean couleurBlanche) {
         super("k", couleurBlanche);
+        roque = true;
+        grandRoque = true;
     }
 
     public String affichage() {
@@ -30,6 +34,16 @@ public class Roi extends Pieces {
                 }
             }
         }
+
+        int x = couleurBlanche() ? 1 : 8;
+        Position poseRoque = new Position(x,1);
+        Position poseGrandRoque = new Position(x,1);
+        if(roque && !e.caseVide(poseRoque) && e.get(poseRoque).getClass() == Tour.class && ((Tour) e.get(poseRoque)).roquePossible()){
+            l.add(new Position(x,2));
+        }
+        if(grandRoque && !e.caseVide(poseGrandRoque) && e.get(poseGrandRoque).getClass() == Tour.class && ((Tour) e.get(poseGrandRoque)).roquePossible()){
+            l.add(new Position(x,7));
+        }
         return l;
     }
     
@@ -45,4 +59,19 @@ public class Roi extends Pieces {
         return false;
     }
     
+    public boolean roquePossible(){
+        return roque;
+    }
+    
+    public boolean grandRoquePossible(){
+        return grandRoque;
+    }
+
+    public void setGrandRoque(boolean grandRoque){
+        this.grandRoque = grandRoque;
+     }
+
+    public void setRoque(boolean roque){
+       this.roque = roque;
+    }
 }

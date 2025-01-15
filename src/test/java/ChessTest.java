@@ -1,6 +1,4 @@
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -68,10 +66,10 @@ public class ChessTest {
 
     @Test
     public void TestSauvegarde() throws ClassNotFoundException, IOException{
-        Assertions.assertTrue(game.estNotationValide("e2-e4"));
-        Assertions.assertTrue(game.estNotationValide("d4-d3"));
-        Assertions.assertTrue(game.estNotationValide("e8-e5"));
-        Assertions.assertTrue(game.estNotationValide("Rd7-d6"));
+        Assertions.assertTrue(game.deplacement("e2","e4"));
+        Assertions.assertTrue(game.deplacement("d4","d3"));
+        Assertions.assertTrue(game.deplacement("e8","e5"));
+        Assertions.assertTrue(game.deplacement("d7","d6"));
         Chess.sauvegarderPartie(game.historique(), "test.txt");
         Chess g = new Chess(true);
         Chess.recupererSauvegarde("test.txt");

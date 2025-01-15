@@ -169,6 +169,11 @@ public class Chess {
     }
 
     public void moove(Position d, Position a){
+        if(get(d).getClass() == Tour.class) ((Tour) get(d)).setRoque(false);
+        if(get(d).getClass() == Roi.class){
+            ((Roi) get(d)).setRoque(false);
+            ((Roi) get(d)).setGrandRoque(false);
+        }
         if(caseVide(a)) echiquier.remove(a);
         echiquier.put(a, echiquier.remove(d));
         coupPossible = null;

@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Tour extends Pieces {
+    private boolean roque;
 
     public Tour(boolean couleurBlanche) {
         super("r", couleurBlanche);
+        roque = true;
     }
 
     public String affichage() {
@@ -45,5 +47,13 @@ public class Tour extends Pieces {
                 break;
             }
         }
+    }
+
+    public boolean roquePossible(){
+        return roque;
+    }
+
+    public void setRoque(boolean roque){
+       this.roque = roque;
     }
 }
