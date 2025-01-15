@@ -25,6 +25,10 @@ public class Position {
         return (x >= 1 && x <= 8 && y >= 1 && y <= 8);
     }
 
+    public static boolean verifValeur(char x, char y){
+        return Position.verifValeur(new Position(x, y));
+    }
+
     public static boolean verifValeur(Position p){
         return Position.verifValeur(p.getX(), p.getY());
     }

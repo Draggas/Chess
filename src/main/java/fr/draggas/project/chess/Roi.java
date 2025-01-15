@@ -35,14 +35,14 @@ public class Roi extends Pieces {
             }
         }
 
-        int x = couleurBlanche() ? 1 : 8;
-        Position poseRoque = new Position(x,1);
-        Position poseGrandRoque = new Position(x,1);
+        int y = couleurBlanche() ? 1 : 8;
+        Position poseRoque = new Position(8,y);
+        Position poseGrandRoque = new Position(1,y);
         if(roque && !e.caseVide(poseRoque) && e.get(poseRoque).getClass() == Tour.class && ((Tour) e.get(poseRoque)).roquePossible()){
-            l.add(new Position(x,2));
+            l.add(new Position(7,y));
         }
         if(grandRoque && !e.caseVide(poseGrandRoque) && e.get(poseGrandRoque).getClass() == Tour.class && ((Tour) e.get(poseGrandRoque)).roquePossible()){
-            l.add(new Position(x,7));
+            l.add(new Position(2,y));
         }
         return l;
     }

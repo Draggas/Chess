@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.Stack;
 
@@ -30,11 +31,6 @@ public class Chess {
 
     private static final Map<String, Set<Character>> CARA = new HashMap<>();
     public Position priseEnPassantPossible = null;
-
-    boolean petitRoqueB = false;
-    boolean grandRoqueB = false;
-    boolean petitRoqueN = false;
-    boolean grandRoqueN = false;
     boolean tourBlanc = true;
     Position priseEnPassant = null;
     private final String nl = System.lineSeparator();
@@ -64,10 +60,6 @@ public class Chess {
                 echiquier.put(new Position(colonne,i*5+2), new Pion((i==0)));
             }
         }
-        petitRoqueB = true;
-        grandRoqueB = true;
-        petitRoqueN = true;
-        grandRoqueN = true;
     }
 
     public void initialisationValidationDeCara(){
@@ -76,14 +68,22 @@ public class Chess {
     }
 
     public String affichage(){
+        final String RED = "\u001B[31m";
+        final String RESET = "\u001B[0m";
         String affichage = "";
         Position p;
         String affichageVide = "x";
         for(int ligne=8;ligne>=1;ligne--){
             for(int colonne=1;colonne<=8;colonne++){
                 p = new Position(colonne, ligne);
-                if(echiquier.containsKey(p)) affichage += get(p).affichage();
-                else affichage += affichageVide;
+                if(coupPossible.contains(p)){affichage += RED;}
+                if(echiquier.containsKey(p)){
+                    affichage += get(p).affichage();
+                }
+                else {
+                    affichage += affichageVide;
+                }
+                if(coupPossible.contains(p)){affichage += RESET;}
             }
             if(ligne != 1) affichage += nl;
         }
@@ -136,7 +136,7 @@ public class Chess {
 
     public boolean verifCoup(String depart){
         if(depart.length() != 2) return false;
-        coupPossible = null;
+        coupPossible = new ArrayList<>();
         char colonne = depart.charAt(0);
         char ligne = depart.charAt(1);
         if(Position.verifValeur(colonne, ligne)){ //b8
@@ -170,21 +170,66 @@ public class Chess {
 
     public void moove(Position d, Position a){
         if(get(d).getClass() == Tour.class) ((Tour) get(d)).setRoque(false);
-        if(get(d).getClass() == Roi.class){
-            ((Roi) get(d)).setRoque(false);
-            ((Roi) get(d)).setGrandRoque(false);
-        }
         if(caseVide(a)) echiquier.remove(a);
         echiquier.put(a, echiquier.remove(d));
-        coupPossible = null;
+        if(get(a).getClass() == Pion.class && (a.getY() == 8 || a.getY() == 1)){
+            echiquier.put(a, choixPromotion(echiquier.remove(a).couleurBlanche()));
+        }
+        if(get(a).getClass() == Roi.class){
+            ((Roi) get(a)).setRoque(false);
+            ((Roi) get(a)).setGrandRoque(false);
+            if(d.getX() == 5){
+                if(a.getX() == 3){
+                    echiquier.put(new Position(4, a.getY()), echiquier.remove(new Position(1,a.getY())));
+                }
+                if(a.getX() == 7){
+                    echiquier.put(new Position(6, a.getY()), echiquier.remove(new Position(8,a.getY())));
+                }
+            }
+        }
+        coupPossible = new ArrayList<>();
     }
 
+    public Pieces choixPromotion(boolean couleur){
+        Scanner s = new Scanner(System.in);
+        System.out.println("Choisissez une pièce pour la promotion :");
+        System.out.println("1 - Tour");
+        System.out.println("2 - Cavalier");
+        System.out.println("3 - Fou");
+        System.out.println("Autres - Reine");
+        System.out.print("Entrez le numéro correspondant à votre choix : ");
+        int choix = s.nextInt();
+        switch (choix) {
+            case 1:
+                s.close();
+                return new Tour(couleur);
+            case 2:
+                s.close();
+                return new Cavalier(couleur);
+            case 3:
+                s.close();
+                return new Fou(couleur);
+            default :
+                s.close();
+                return new Reine(couleur);
+        }
+    }
+    
     public List<Position> coupPossible(){
         return coupPossible;
     }
 
     public static void main(String[] args) {
-        Chess game = new Chess();
-        game.affichage();
+        Chess.testPromotion();
+    }
+
+    public static void testPromotion(){
+        Chess c = new Chess(false);
+        c.addPieces(new Position("e7"), new Pion(true));
+        System.out.println(c.affichage());
+        c.verifCoup("e7");
+        System.out.println(c.affichage());
+        c.deplacement("e7", "e8");
+        System.out.println(c.affichage());
     }
 }

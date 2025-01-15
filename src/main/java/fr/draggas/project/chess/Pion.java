@@ -17,22 +17,22 @@ public class Pion extends Pieces {
     public List<Position> moovePossible(Position p, Chess e) {
         List<Position> l = new ArrayList<>();
     
-        int direction = couleurBlanche() ? -1 : 1;
+        int direction = couleurBlanche() ? 1 : -1;
     
-        Position a = new Position(p.getX() + direction, p.getY());
+        Position a = new Position(p.getX(), p.getY() + direction);
         if (e.caseVide(a)) {
             l.add(a);
 
-            if ((couleurBlanche() && p.getX() == 6) || (!couleurBlanche() && p.getX() == 1)) {
-                Position a2 = new Position(p.getX() + 2 * direction, p.getY());
+            if ((couleurBlanche() && p.getY() == 2) || (!couleurBlanche() && p.getY() == 7)) {
+                Position a2 = new Position(p.getX(), p.getY() + 2 * direction);
                 if (e.caseVide(a2)) {
                     l.add(a2);
                 }
             }
         }
         for(int i = -1; i*i==1; i=i+2){
-            Position d = new Position(p.getX() + direction, p.getY() + i);
-            if (d.getY() >= 0 && d.getY() < 8){
+            Position d = new Position(p.getX() + i, p.getY() + direction);
+            if (d.getY() >= 1 && d.getY() <= 8){
                 if (!e.caseVide(d) && e.get(d).couleurBlanche() != couleurBlanche()) {
                     l.add(d);
                 }

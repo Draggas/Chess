@@ -44,10 +44,10 @@ public class RoiTest {
     public void testRoque() {
         Chess echiquier = new Chess(false);
         Roi roiBlanc = new Roi(true);
-        Position positionRoi = new Position(1,5);
+        Position positionRoi = new Position(5,1);
         echiquier.addPieces(positionRoi, roiBlanc);
         Tour tourBlanc = new Tour(true);
-        Position positionTour = new Position(1,8);
+        Position positionTour = new Position(8,1);
         echiquier.addPieces(positionTour, tourBlanc);
         Tour tour2Blanc = new Tour(true);
         Position positionTour2 = new Position(1,1);
@@ -56,7 +56,11 @@ public class RoiTest {
         List<Position> mouvements = roiBlanc.moovePossible(positionRoi, echiquier);
 
         Assertions.assertEquals(7, mouvements.size());
-        Assertions.assertTrue(mouvements.contains(new Position(1,7))); // Petit Roque
-        Assertions.assertTrue(mouvements.contains(new Position(1,2))); // Grand Roque
+        Assertions.assertTrue(mouvements.contains(new Position(7,1))); // Petit Roque
+        Assertions.assertTrue(mouvements.contains(new Position(2,1))); // Grand Roque
+
+        echiquier.deplacement("e1", "g1");
+        Assertions.assertEquals(Tour.class, echiquier.get(new Position("f1")).getClass());
+        Assertions.assertTrue(echiquier.caseVide(new Position("h1")));
     }
 }

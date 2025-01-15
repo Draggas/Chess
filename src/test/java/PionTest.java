@@ -11,27 +11,27 @@ public class PionTest {
     public void testDeplacementClassique() {
         Chess echiquier = new Chess(false);
         Pion pionBlanc = new Pion(true);
-        Position positionPion = new Position(6, 4);
+        Position positionPion = new Position(2, 2);
         echiquier.addPieces(positionPion, pionBlanc);
 
         List<Position> mouvements = pionBlanc.moovePossible(positionPion, echiquier);
 
-        Assertions.assertTrue(mouvements.contains(new Position(5, 4))); // 1
-        Assertions.assertTrue(mouvements.contains(new Position(4, 4))); // 2
         Assertions.assertEquals(2, mouvements.size());
+        Assertions.assertTrue(mouvements.contains(new Position(2, 3))); // 1
+        Assertions.assertTrue(mouvements.contains(new Position(2, 4))); // 2
     }
 
     @Test
     public void testBlocage() {
         Chess echiquier = new Chess(false);
         Pion pionBlanc = new Pion(true);
-        Position positionPion = new Position(6, 4);
+        Position positionPion = new Position(2, 2);
         echiquier.addPieces(positionPion, pionBlanc);
-        echiquier.addPieces(new Position(5, 4), new Pion(false));
+        echiquier.addPieces(new Position(2, 3), new Pion(true));
 
         List<Position> mouvements = pionBlanc.moovePossible(positionPion, echiquier);
-        Assertions.assertFalse(mouvements.contains(new Position(5, 4)));
-        Assertions.assertFalse(mouvements.contains(new Position(4, 4)));
+        Assertions.assertFalse(mouvements.contains(new Position(2, 3)));
+        Assertions.assertFalse(mouvements.contains(new Position(2,4)));
         Assertions.assertTrue(mouvements.isEmpty());
     }
 
@@ -39,18 +39,19 @@ public class PionTest {
     public void testPriseDiagonale() {
         Chess echiquier = new Chess(false);
         Pion pionBlanc = new Pion(true);
-        Position positionPion = new Position(4, 4);
+        Position positionPion = new Position(2, 2);
         echiquier.addPieces(positionPion, pionBlanc);
 
         echiquier.addPieces(new Position(3, 3), new Pion(false));
-        echiquier.addPieces(new Position(3, 5), new Pion(false));
+        echiquier.addPieces(new Position(1, 3), new Pion(false));
 
         List<Position> mouvements = pionBlanc.moovePossible(positionPion, echiquier);
 
         Assertions.assertTrue(mouvements.contains(new Position(3, 3))); // prise
-        Assertions.assertTrue(mouvements.contains(new Position(3, 5))); // prise
-        Assertions.assertTrue(mouvements.contains(new Position(3, 4))); // non prise
-        Assertions.assertEquals(3, mouvements.size());
+        Assertions.assertTrue(mouvements.contains(new Position(1, 3))); // prise
+        Assertions.assertTrue(mouvements.contains(new Position(2, 3))); // non prise
+        Assertions.assertTrue(mouvements.contains(new Position(2, 4))); // non prise
+        Assertions.assertEquals(4, mouvements.size());
     }
 
     @Test
@@ -61,15 +62,15 @@ public class PionTest {
         echiquier.addPieces(positionPion, pionBlanc);
 
         Pion pionNoir = new Pion(false);
-        Position positionPionNoir = new Position(4, 5);
+        Position positionPionNoir = new Position(5, 4);
         echiquier.addPieces(positionPionNoir, pionNoir);
 
-        echiquier.priseEnPassantPossible = new Position(3, 5);
+        echiquier.priseEnPassantPossible = new Position(5, 5);
 
         List<Position> mouvements = pionBlanc.moovePossible(positionPion, echiquier);
 
         Assertions.assertEquals(2, mouvements.size());
-        Assertions.assertTrue(mouvements.contains(new Position(3, 5)));
+        Assertions.assertTrue(mouvements.contains(new Position(5, 5)));
     }
 
     @Test
@@ -80,13 +81,13 @@ public class PionTest {
         echiquier.addPieces(positionPion, pionBlanc);
 
         Pion pionNoir = new Pion(false);
-        Position positionPionNoir = new Position(4, 5);
+        Position positionPionNoir = new Position(5, 4);
         echiquier.addPieces(positionPionNoir, pionNoir);
 
         List<Position> mouvements = pionBlanc.moovePossible(positionPion, echiquier);
 
-        Assertions.assertFalse(mouvements.contains(new Position(3, 5)));
-        Assertions.assertTrue(mouvements.contains(new Position(3, 4)));
+        Assertions.assertFalse(mouvements.contains(new Position(5, 5)));
+        Assertions.assertTrue(mouvements.contains(new Position(4, 5)));
         Assertions.assertEquals(1, mouvements.size());
     }
 }
