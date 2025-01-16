@@ -43,6 +43,17 @@ public class ChessTest {
     }
 
     @Test
+    public void TestRoiEnEchec(){
+        Chess c = new Chess(false);
+        c.addPieces(new Position("e8"), new Tour(false));
+        c.addPieces(new Position("e7"), new Roi(true));
+        c.addPieces(new Position("a1") , new Fou(true));
+        Assertions.assertTrue(c.verifCoup("e7"));
+        Assertions.assertFalse(c.deplacement("e7", "e6"));
+        Assertions.assertFalse(c.deplacement("a1", "b2"));
+    }
+
+    @Test
     public void TestSauvegarde() throws ClassNotFoundException, IOException{
         Assertions.assertTrue(game.deplacement("e2","e4"));
         Assertions.assertTrue(game.deplacement("d4","d3"));

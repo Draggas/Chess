@@ -38,16 +38,16 @@ public class Roi extends Pieces {
         int y = couleurBlanche() ? 1 : 8;
         Position poseRoque = new Position(8,y);
         Position poseGrandRoque = new Position(1,y);
-        if(roque && !e.caseVide(poseRoque) && e.get(poseRoque).getClass() == Tour.class && ((Tour) e.get(poseRoque)).roquePossible()){
+        if(roque && !e.caseVide(poseRoque) && e.get(poseRoque).getClass() == Tour.class && e.caseVide(new Position(7, y)) && e.caseVide(new Position(6, y)) && !enEchec(new Position(6,y), e) && ((Tour) e.get(poseRoque)).roquePossible()){
             l.add(new Position(7,y));
         }
-        if(grandRoque && !e.caseVide(poseGrandRoque) && e.get(poseGrandRoque).getClass() == Tour.class && ((Tour) e.get(poseGrandRoque)).roquePossible()){
+        if(grandRoque && !e.caseVide(poseGrandRoque) && e.get(poseGrandRoque).getClass() == Tour.class && e.caseVide(new Position(2, y)) && e.caseVide(new Position(4, y)) && !enEchec(new Position(4,y), e) && !enEchec(new Position(3,y), e) && e.caseVide(new Position(3, y)) && !enEchec(new Position(4,y), e) && !enEchec(new Position(6,y), e) && ((Tour) e.get(poseGrandRoque)).roquePossible()){
             l.add(new Position(2,y));
         }
         return l;
     }
     
-    private boolean enEchec(Position n, Chess e) {
+    public boolean enEchec(Position n, Chess e) {
         for (Position p : e.echiquier.keySet()) {
             if(e.get(p).couleurBlanche() != this.couleurBlanche()){
                 Pieces d = e.get(p);

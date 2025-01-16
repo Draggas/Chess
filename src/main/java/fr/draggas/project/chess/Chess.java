@@ -36,6 +36,8 @@ public class Chess {
     private final String nl = System.lineSeparator();
     Stack<String> historique = new Stack<>();
     String filename = "res/historique.txt";
+    Position roiB = null;
+    Position roiN = null;
 
     public Chess(boolean nonVide){
         if(nonVide) initialisationPlateau();
@@ -59,6 +61,8 @@ public class Chess {
             for(int colonne=1;colonne<9;colonne++){
                 echiquier.put(new Position(colonne,i*5+2), new Pion((i==0)));
             }
+            roiB = new Position("e1");
+            roiN = new Position("e8");
         }
     }
 
@@ -142,8 +146,10 @@ public class Chess {
         if(Position.verifValeur(colonne, ligne)){ //b8
             Position v = new Position(colonne, ligne);
             if(!caseVide(v)){
-                coupPossible = get(v).moovePossible(v, this);
-                return true;
+                if(get(v).couleurBlanche() == tourBlanc){
+                    coupPossible = get(v).moovePossible(v, this);
+                    return true;
+                }
             }
         }
         return false;
@@ -161,17 +167,30 @@ public class Chess {
             Position d = new Position(depart.charAt(0), depart.charAt(1));
             Position a = new Position(colonne, Character.getNumericValue(ligne));
             if(coupPossible.contains(a)){
-                moove(d,a);
-                return true;
+                return moove(d,a);
             }
         }
         return false;
     }
 
-    public void moove(Position d, Position a){
+    public boolean moove(Position d, Position a){
+        if(tourBlanc != get(d).couleurBlanche()){
+            coupPossible = new ArrayList<>();
+            return false;
+        }
+        Position r = rechercheRoi(tourBlanc);
+        if(get(d).getClass() == Roi.class || ((Roi)get(r)).enEchec(r, this)){
+            coupPossible = new ArrayList<>();
+            return false;
+        }
         if(get(d).getClass() == Tour.class) ((Tour) get(d)).setRoque(false);
         if(caseVide(a)) echiquier.remove(a);
         echiquier.put(a, echiquier.remove(d));
+        if(((Roi)get(r)).enEchec(r, this)){
+            echiquier.put(d, echiquier.remove(a));
+            coupPossible = new ArrayList<>();
+            return false;
+        }
         if(get(a).getClass() == Pion.class && (a.getY() == 8 || a.getY() == 1)){
             echiquier.put(a, choixPromotion(echiquier.remove(a).couleurBlanche()));
         }
@@ -188,6 +207,7 @@ public class Chess {
             }
         }
         coupPossible = new ArrayList<>();
+        return true;
     }
 
     public Pieces choixPromotion(boolean couleur){
@@ -219,8 +239,52 @@ public class Chess {
         return coupPossible;
     }
 
+    public Position rechercheRoi(boolean couleurBlanche){
+        for (Position p : echiquier.keySet()) {
+            if(get(p).couleurBlanche() != couleurBlanche && get(p).getClass() == Roi.class){
+                return p;
+            }
+        }
+        return null;
+    }
+
+    public void gameplay(){
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Début de la partie");
+        System.out.println("------------------");
+        boolean fin = false;
+        while(!fin){
+            System.out.println(affichage());
+            System.out.print("Départ ");
+            if(tourBlanc) System.out.print(" Blanc : ");
+            else System.out.print(" Noir : ");
+            String sD = scan.nextLine();
+            if(sD.equals("Quit")) break;
+            if(verifCoup(sD)){
+                System.out.println(affichage());
+                System.out.print("Arrivé ");
+                if(tourBlanc) System.out.print(" Blanc : ");
+                else System.out.print(" Noir : ");
+                String sA = scan.nextLine();
+                if(sA.equals("Quit")) break;
+                if(deplacement(sD, sA)){
+                    tourBlanc = !tourBlanc;
+                    System.out.println("Au tour de l'adversaire");
+                    System.out.println("------------------");
+
+                } else {
+                    System.out.println(">Erreur dans le déplacement");
+                }
+            } else {
+                System.out.println(">Erreur dans la pièce de départ");
+            }
+        }
+        scan.close();
+    }
+
     public static void main(String[] args) {
-        Chess.testPromotion();
+        Chess c = new Chess();
+        c.gameplay();
     }
 
     public static void testPromotion(){
