@@ -38,10 +38,12 @@ public class Chess {
     String filename = "res/historique.txt";
     Position roiB = null;
     Position roiN = null;
+    boolean finPartie;
 
     public Chess(boolean nonVide){
         if(nonVide) initialisationPlateau();
         initialisationValidationDeCara();
+        finPartie = false;
     }
 
     public Chess(){
@@ -180,6 +182,7 @@ public class Chess {
             return false;
         }
         if(get(d).getClass() == Tour.class) ((Tour) get(d)).setRoque(false);
+        if(!caseVide(a) && get(a).getClass() == Roi.class) finPartie = true;
         if(caseVide(a)) echiquier.remove(a);
         echiquier.put(a, echiquier.remove(d));
         if(get(a).getClass() == Pion.class && (a.getY() == 8 || a.getY() == 1)){
@@ -230,15 +233,6 @@ public class Chess {
         return coupPossible;
     }
 
-    public Position rechercheRoi(boolean couleurBlanche){
-        for (Position p : echiquier.keySet()) {
-            if(get(p).couleurBlanche() != couleurBlanche && get(p).getClass() == Roi.class){
-                return p;
-            }
-        }
-        return null;
-    }
-
     public void gameplay(){
         Scanner scan = new Scanner(System.in);
         System.out.println("Début de la partie");
@@ -259,6 +253,11 @@ public class Chess {
                 String sA = scan.nextLine();
                 if(sA.equals("Quit")) break;
                 if(deplacement(sD, sA)){
+                    if(finPartie){
+                        String victoire = tourBlanc ? "blanches" : "noires";
+                        System.out.println("Victoire pour le joueur qui a les pièces " + victoire);
+                        break; 
+                    }
                     tourBlanc = !tourBlanc;
                     System.out.println("Au tour de l'adversaire");
                     System.out.println("------------------");

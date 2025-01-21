@@ -1,5 +1,3 @@
-- Mettre la victoire à celui qui mange le roi de l'adversaire
-- Ajouter le triple répétition = Nul
 - Clarifier le code
 - Faire le 1er Tag
 
@@ -11,6 +9,7 @@ Tag2 : Chess avec Graphique :
 - Ajouter la fonction de sauvegarde
 - Système de création de terrain
 - Ajout Menu
+- Ajouter le triple répétition = Nul
 - Système de cadence
 
 
