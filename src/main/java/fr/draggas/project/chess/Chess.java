@@ -156,6 +156,7 @@ public class Chess {
     }
 
     public boolean deplacement(String depart, String arrivee){
+        if(arrivee.length() != 2) return false;
         if(coupPossible.isEmpty()){
             if(!verifCoup(depart)){
                 return false;
@@ -178,19 +179,9 @@ public class Chess {
             coupPossible = new ArrayList<>();
             return false;
         }
-        Position r = rechercheRoi(tourBlanc);
-        if(get(d).getClass() == Roi.class || ((Roi)get(r)).enEchec(r, this)){
-            coupPossible = new ArrayList<>();
-            return false;
-        }
         if(get(d).getClass() == Tour.class) ((Tour) get(d)).setRoque(false);
         if(caseVide(a)) echiquier.remove(a);
         echiquier.put(a, echiquier.remove(d));
-        if(((Roi)get(r)).enEchec(r, this)){
-            echiquier.put(d, echiquier.remove(a));
-            coupPossible = new ArrayList<>();
-            return false;
-        }
         if(get(a).getClass() == Pion.class && (a.getY() == 8 || a.getY() == 1)){
             echiquier.put(a, choixPromotion(echiquier.remove(a).couleurBlanche()));
         }

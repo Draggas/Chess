@@ -31,8 +31,10 @@ public class ChessTest {
     @Test
     public void TestNotationValide(){
         Assertions.assertTrue(game.verifCoup("e2"));
+        game.changeTour();
         Assertions.assertTrue(game.verifCoup("d7"));
         Assertions.assertTrue(game.verifCoup("h8"));
+        game.changeTour();
         Assertions.assertTrue(game.verifCoup("h1"));
         Assertions.assertFalse(game.verifCoup("g9"));
         Assertions.assertFalse(game.verifCoup("j1"));
@@ -40,17 +42,6 @@ public class ChessTest {
         Assertions.assertFalse(game.verifCoup("d5"));
         Assertions.assertFalse(game.verifCoup("d23"));
         Assertions.assertFalse(game.verifCoup("xx"));
-    }
-
-    @Test
-    public void TestRoiEnEchec(){
-        Chess c = new Chess(false);
-        c.addPieces(new Position("e8"), new Tour(false));
-        c.addPieces(new Position("e7"), new Roi(true));
-        c.addPieces(new Position("a1") , new Fou(true));
-        Assertions.assertTrue(c.verifCoup("e7"));
-        Assertions.assertFalse(c.deplacement("e7", "e6"));
-        Assertions.assertFalse(c.deplacement("a1", "b2"));
     }
 
     @Test

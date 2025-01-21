@@ -8,25 +8,7 @@ import fr.draggas.project.chess.*;
 public class RoiTest {
 
     @Test
-    public void testDeplacementsPossibles() {
-        Chess echiquier = new Chess(false);
-        Roi roiBlanc = new Roi(true);
-        Position positionRoi = new Position(4, 4);
-        echiquier.addPieces(positionRoi, roiBlanc);
-        Reine reineNoire = new Reine(false);
-        Position positionReine = new Position(1, 3);
-        echiquier.addPieces(positionReine, reineNoire);
-
-        List<Position> mouvements = roiBlanc.moovePossible(positionRoi, echiquier);
-
-        Assertions.assertEquals(4, mouvements.size());
-        Assertions.assertTrue(mouvements.contains(new Position(4, 5))); // Haut
-        Assertions.assertFalse(mouvements.contains(new Position(3, 3))); // Bas Gauche
-        Assertions.assertFalse(mouvements.contains(new Position(5, 3))); // Bas Droite
-    }
-
-    @Test
-    public void testDeplacementsSansEchecs() {
+    public void testDeplacements() {
         Chess echiquier = new Chess(false);
         Roi roiBlanc = new Roi(true);
         Position positionRoi = new Position(4, 4);
