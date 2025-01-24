@@ -1,10 +1,5 @@
 package fr.draggas.project.chess;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -80,6 +75,7 @@ public class Chess {
         Position p;
         String affichageVide = "x";
         for(int ligne=8;ligne>=1;ligne--){
+            affichage = affichage + ligne + " ";
             for(int colonne=1;colonne<=8;colonne++){
                 p = new Position(colonne, ligne);
                 if(coupPossible.contains(p)){affichage += RED;}
@@ -93,9 +89,12 @@ public class Chess {
             }
             if(ligne != 1) affichage += nl;
         }
+        affichage += nl + "  ";
+        for(int i=0;i<8;i++){
+            affichage += CARA.get("colonne").toArray()[i];
+        }
         return affichage;
     }
-
 
     public void addPieces(Position pose, Pieces p){
        echiquier.put(pose, p);
@@ -127,25 +126,13 @@ public class Chess {
     public Stack<String> historique(){
         return historique;
     }
-    public static void sauvegarderPartie(Stack<String> stack, String fileName) throws IOException {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
-            oos.writeObject(stack);
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    public static Stack<String> recupererSauvegarde(String fileName) throws IOException, ClassNotFoundException {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
-            return (Stack<String>) ois.readObject();
-        }
-    }
 
     public boolean verifCoup(String depart){
         if(depart.length() != 2) return false;
         coupPossible = new ArrayList<>();
         char colonne = depart.charAt(0);
         char ligne = depart.charAt(1);
-        if(Position.verifValeur(colonne, ligne)){ //b8
+        if(Position.verifValeur(colonne, ligne)){
             Position v = new Position(colonne, ligne);
             if(!caseVide(v)){
                 if(get(v).couleurBlanche() == tourBlanc){
@@ -275,15 +262,5 @@ public class Chess {
     public static void main(String[] args) {
         Chess c = new Chess();
         c.gameplay();
-    }
-
-    public static void testPromotion(){
-        Chess c = new Chess(false);
-        c.addPieces(new Position("e7"), new Pion(true));
-        System.out.println(c.affichage());
-        c.verifCoup("e7");
-        System.out.println(c.affichage());
-        c.deplacement("e7", "e8");
-        System.out.println(c.affichage());
     }
 }

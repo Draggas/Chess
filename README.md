@@ -1,9 +1,3 @@
-- Clarifier le code
-- Faire le 1er Tag
-
-TESTER
-ET FIN DE LA 1ERE PARTIE
-
 Tag2 : Chess avec Graphique :
 - MVC
 - Ajouter la fonction de sauvegarde

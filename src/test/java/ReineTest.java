@@ -21,13 +21,11 @@ public class ReineTest {
 
         List<Position> mouvements = dameBlanche.moovePossible(positionDame, echiquier);
 
-        // Vérifications diagonales
         Assertions.assertTrue(mouvements.contains(new Position(5, 5))); // Diagonale droite-haut
         Assertions.assertTrue(mouvements.contains(new Position(3, 3))); // Diagonale gauche-bas
         Assertions.assertFalse(mouvements.contains(new Position(7, 7))); // Après obstacle noir en diagonale
         Assertions.assertTrue(mouvements.contains(new Position(5, 3))); // Diagonale droite-bas
 
-        // Vérifications verticales et horizontales
         Assertions.assertTrue(mouvements.contains(new Position(4, 5))); // Case libre au-dessus
         Assertions.assertFalse(mouvements.contains(new Position(4, 7))); // Après obstacle blanc
         Assertions.assertTrue(mouvements.contains(new Position(4, 2))); // Obstacle noir (prenable)

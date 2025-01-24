@@ -1,5 +1,3 @@
-import java.io.IOException;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,17 +40,5 @@ public class ChessTest {
         Assertions.assertFalse(game.verifCoup("d5"));
         Assertions.assertFalse(game.verifCoup("d23"));
         Assertions.assertFalse(game.verifCoup("xx"));
-    }
-
-    @Test
-    public void TestSauvegarde() throws ClassNotFoundException, IOException{
-        Assertions.assertTrue(game.deplacement("e2","e4"));
-        Assertions.assertTrue(game.deplacement("d4","d3"));
-        Assertions.assertTrue(game.deplacement("e8","e5"));
-        Assertions.assertTrue(game.deplacement("d7","d6"));
-        Chess.sauvegarderPartie(game.historique(), "test.txt");
-        Chess g = new Chess(true);
-        Chess.recupererSauvegarde("test.txt");
-        Assertions.assertEquals(game.lireSauvegarde(), g.lireSauvegarde());
     }
 }
