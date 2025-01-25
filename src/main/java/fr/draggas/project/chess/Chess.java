@@ -91,7 +91,7 @@ public class Chess {
         }
         affichage += nl + "  ";
         for(int i=0;i<8;i++){
-            affichage += CARA.get("colonne").toArray()[i];
+            affichage += (char)('a' + i);
         }
         return affichage;
     }

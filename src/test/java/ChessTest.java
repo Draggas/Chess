@@ -7,8 +7,8 @@ import fr.draggas.project.chess.*;
 public class ChessTest {
     Chess game;
     String ls = System.lineSeparator();
-    String affichage =  "RNBQKBNR" + ls + "PPPPPPPP" + ls + "xxxxxxxx" + ls + "xxxxxxxx" + ls + "xxxxxxxx" + ls + "xxxxxxxx" + ls + "pppppppp" + ls + "rnbqkbnr";
-    String affichageVide =  "xxxxxxxx" + ls + "xxxxxxxx" + ls + "xxxxxxxx" + ls + "xxxxxxxx" + ls + "xxxxxxxx" + ls + "xxxxxxxx" + ls + "xxxxxxxx" + ls + "xxxxxxxx";
+    String affichage =  "8 RNBQKBNR" + ls + "7 PPPPPPPP" + ls + "6 xxxxxxxx" + ls + "5 xxxxxxxx" + ls + "4 xxxxxxxx" + ls + "3 xxxxxxxx" + ls + "2 pppppppp" + ls + "1 rnbqkbnr" + ls + "  abcdefgh";
+    String affichageVide =  "8 xxxxxxxx" + ls + "7 xxxxxxxx" + ls + "6 xxxxxxxx" + ls + "5 xxxxxxxx" + ls + "4 xxxxxxxx" + ls + "3 xxxxxxxx" + ls + "2 xxxxxxxx" + ls + "1 xxxxxxxx" + ls + "  abcdefgh";
     
     @BeforeEach
     public void Initialisation(){
