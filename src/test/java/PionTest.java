@@ -3,7 +3,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import fr.draggas.project.chess.*;
+import fr.draggas.project.chess.model.Chess;
+import fr.draggas.project.chess.model.Pion;
+import fr.draggas.project.chess.model.Position;
 
 public class PionTest {
 

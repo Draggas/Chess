@@ -2,7 +2,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import fr.draggas.project.chess.*;
+import fr.draggas.project.chess.model.Chess;
 
 public class ChessTest {
     Chess game;

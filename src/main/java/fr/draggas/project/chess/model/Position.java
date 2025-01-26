@@ -1,4 +1,4 @@
-package fr.draggas.project.chess;
+package fr.draggas.project.chess.model;
 
 public class Position {
     int position_x;

@@ -1,7 +1,7 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import fr.draggas.project.chess.Position;
+import fr.draggas.project.chess.model.Position;
 
 public class PositionTest {
 
