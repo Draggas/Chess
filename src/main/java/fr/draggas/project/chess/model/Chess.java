@@ -111,6 +111,14 @@ public class Chess {
         return !echiquier.containsKey(pose);
     }
 
+    public boolean getTour(){
+        return this.tourBlanc;
+    }
+
+    public boolean getFinPartie(){
+        return this.finPartie;
+    }
+
     public void changeTour(){
         this.tourBlanc = !this.tourBlanc;
     }
@@ -148,6 +156,7 @@ public class Chess {
         if(arrivee.length() != 2) return false;
         if(coupPossible.isEmpty()){
             if(!verifCoup(depart)){
+                coupPossible = new ArrayList<>();
                 return false;
             }
         }
@@ -160,6 +169,7 @@ public class Chess {
                 return moove(d,a);
             }
         }
+        coupPossible = new ArrayList<>();
         return false;
     }
 
@@ -218,49 +228,5 @@ public class Chess {
     
     public List<Position> coupPossible(){
         return coupPossible;
-    }
-
-    public void gameplay(){
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Début de la partie");
-        System.out.println("------------------");
-        boolean fin = false;
-        while(!fin){
-            System.out.println(affichage());
-            System.out.print("Départ ");
-            if(tourBlanc) System.out.print(" Blanc : ");
-            else System.out.print(" Noir : ");
-            String sD = scan.nextLine();
-            if(sD.equals("Quit")) break;
-            if(verifCoup(sD)){
-                System.out.println(affichage());
-                System.out.print("Arrivé ");
-                if(tourBlanc) System.out.print(" Blanc : ");
-                else System.out.print(" Noir : ");
-                String sA = scan.nextLine();
-                if(sA.equals("Quit")) break;
-                if(deplacement(sD, sA)){
-                    if(finPartie){
-                        String victoire = tourBlanc ? "blanches" : "noires";
-                        System.out.println("Victoire pour le joueur qui a les pièces " + victoire);
-                        break; 
-                    }
-                    tourBlanc = !tourBlanc;
-                    System.out.println("Au tour de l'adversaire");
-                    System.out.println("------------------");
-
-                } else {
-                    System.out.println(">Erreur dans le déplacement");
-                }
-            } else {
-                System.out.println(">Erreur dans la pièce de départ");
-            }
-        }
-        scan.close();
-    }
-
-    public static void main(String[] args) {
-        Chess c = new Chess();
-        c.gameplay();
     }
 }
