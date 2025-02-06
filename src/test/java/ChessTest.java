@@ -16,17 +16,6 @@ public class ChessTest {
     }
     
     @Test
-    public void TestPlateauPlein(){
-        Assertions.assertEquals(affichage, game.affichage());
-    }
-
-    @Test
-    public void TestPlateauVide(){
-        game = new Chess(false);
-        Assertions.assertEquals(affichageVide, game.affichage());
-    }
-
-    @Test
     public void TestNotationValide(){
         Assertions.assertTrue(game.verifCoup("e2"));
         game.changeTour();

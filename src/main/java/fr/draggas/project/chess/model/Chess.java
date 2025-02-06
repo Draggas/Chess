@@ -1,44 +1,23 @@
 package fr.draggas.project.chess.model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.Stack;
+import java.util.*;
 
 public class Chess {
     Map<Position,Pieces> echiquier = new HashMap<>();
     List<Position> coupPossible = new ArrayList<>();
-    /* y
-     * 8 RNBQKBNR
-     * 7 PPPPPPPP
-     * 6 xxxxxxxx
-     * 5 xxxxxxxx
-     * 4 xxxxxxxx
-     * 3 xxxxxxxx
-     * 2 pppppppp
-     * 1 rnbqkbnr
-     * 
-     *   abcdefgh x
-     */
-
+    boolean tourBlanc = true;
+    boolean finPartie = false;
     private static final Map<String, Set<Character>> CARA = new HashMap<>();
     public Position priseEnPassantPossible = null;
-    boolean tourBlanc = true;
     Position priseEnPassant = null;
-    private final String nl = System.lineSeparator();
     Stack<String> historique = new Stack<>();
     String filename = "res/historique.txt";
     Position roiB = null;
     Position roiN = null;
-    boolean finPartie;
 
     public Chess(boolean nonVide){
         if(nonVide) initialisationPlateau();
         initialisationValidationDeCara();
-        finPartie = false;
     }
 
     public Chess(){
@@ -68,34 +47,6 @@ public class Chess {
         CARA.put("ligne", Set.of('1', '2', '3', '4', '5', '6', '7', '8'));
     }
 
-    public String affichage(){
-        final String RED = "\u001B[31m";
-        final String RESET = "\u001B[0m";
-        String affichage = "";
-        Position p;
-        String affichageVide = "x";
-        for(int ligne=8;ligne>=1;ligne--){
-            affichage = affichage + ligne + " ";
-            for(int colonne=1;colonne<=8;colonne++){
-                p = new Position(colonne, ligne);
-                if(coupPossible.contains(p)){affichage += RED;}
-                if(echiquier.containsKey(p)){
-                    affichage += get(p).affichage();
-                }
-                else {
-                    affichage += affichageVide;
-                }
-                if(coupPossible.contains(p)){affichage += RESET;}
-            }
-            if(ligne != 1) affichage += nl;
-        }
-        affichage += nl + "  ";
-        for(int i=0;i<8;i++){
-            affichage += (char)('a' + i);
-        }
-        return affichage;
-    }
-
     public void addPieces(Position pose, Pieces p){
        echiquier.put(pose, p);
     }
@@ -103,8 +54,16 @@ public class Chess {
         echiquier.remove(pose);
     }
 
+    public List<Position> getCoupPossible(){
+        return coupPossible;
+    }
+
     public Pieces get(Position pose){
         return echiquier.get(pose);
+    }
+
+    public boolean containsKey(Position pose){
+        return echiquier.containsKey(pose);
     }
 
     public boolean caseVide(Position pose){
