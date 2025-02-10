@@ -1,8 +1,9 @@
 package fr.draggas.project.chess.model;
 
 import java.util.*;
+import fr.draggas.project.chess.utils.Observable;
 
-public class Chess {
+public class Chess extends Observable {
     Map<Position,Pieces> echiquier = new HashMap<>();
     List<Position> coupPossible = new ArrayList<>();
     boolean tourBlanc = true;
@@ -10,14 +11,12 @@ public class Chess {
     private static final Map<String, Set<Character>> CARA = new HashMap<>();
     public Position priseEnPassantPossible = null;
     Position priseEnPassant = null;
-    Stack<String> historique = new Stack<>();
     String filename = "res/historique.txt";
     Position roiB = null;
     Position roiN = null;
 
     public Chess(boolean nonVide){
         if(nonVide) initialisationPlateau();
-        initialisationValidationDeCara();
     }
 
     public Chess(){
@@ -40,9 +39,6 @@ public class Chess {
             roiB = new Position("e1");
             roiN = new Position("e8");
         }
-    }
-
-    public void initialisationValidationDeCara(){
         CARA.put("colonne", Set.of('a','b','c','d','e','f','g','h'));
         CARA.put("ligne", Set.of('1', '2', '3', '4', '5', '6', '7', '8'));
     }
@@ -86,14 +82,6 @@ public class Chess {
         return this.priseEnPassant;
     }
 
-    public String lireSauvegarde(){
-        return historique.toString();
-    }
-
-    public Stack<String> historique(){
-        return historique;
-    }
-
     public boolean verifCoup(String depart){
         if(depart.length() != 2) return false;
         coupPossible = new ArrayList<>();
@@ -104,6 +92,7 @@ public class Chess {
             if(!caseVide(v)){
                 if(get(v).couleurBlanche() == tourBlanc){
                     coupPossible = get(v).moovePossible(v, this);
+                    notifyObservers();
                     return true;
                 }
             }
@@ -116,6 +105,7 @@ public class Chess {
         if(coupPossible.isEmpty()){
             if(!verifCoup(depart)){
                 coupPossible = new ArrayList<>();
+                notifyObservers();
                 return false;
             }
         }
@@ -129,12 +119,14 @@ public class Chess {
             }
         }
         coupPossible = new ArrayList<>();
+        notifyObservers();
         return false;
     }
 
     public boolean moove(Position d, Position a){
         if(tourBlanc != get(d).couleurBlanche()){
             coupPossible = new ArrayList<>();
+            notifyObservers();
             return false;
         }
         if(get(d).getClass() == Tour.class) ((Tour) get(d)).setRoque(false);
@@ -156,6 +148,7 @@ public class Chess {
                 }
             }
         }
+        notifyObservers();
         coupPossible = new ArrayList<>();
         return true;
     }
