@@ -11,7 +11,6 @@ public class Chess extends Observable {
     private static final Map<String, Set<Character>> CARA = new HashMap<>();
     public Position priseEnPassantPossible = null;
     Position priseEnPassant = null;
-    String filename = "res/historique.txt";
     Position roiB = null;
     Position roiN = null;
 
