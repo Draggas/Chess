@@ -1,0 +1,24 @@
+stages:
+  - 🧪 tests
+  - 🚀 deploy
+
+junit:
+  stage: 🧪 tests
+  image: maven
+  script:
+    - mvn test
+    - mvn jacoco:report
+  artifacts:
+    reports:
+      junit: "target/surefire-reports/*.xml"
+    paths:
+      - target/site/jacoco/
+
+pages:
+  stage: 🚀 deploy
+  script:
+    - mkdir public
+    - xcopy /E /I target\site\jacoco\ public\
+  artifacts:
+    paths:
+      - public

@@ -43,6 +43,11 @@ Lancer depuis un terminal à la racine du projet :
 
 ## Autres
 
+### Lancer Couverture de Test avec Jacoco
+mvn clean test / mvn clean verify
+mvn verify
+ouvrir le site en raccourci
+
 ### AVANT
 - Remise à propre des différents classes (ergonomies, noms en anglais...)
 - Implémentation du Controllers dans le ChessBoard
