@@ -6,42 +6,38 @@ import java.util.List;
 public class Pion extends Pieces {
 
     public Pion(boolean couleurBlanche) {
-        super("p", couleurBlanche);
-    }
-
-    public String affichage() {
-        return super.affichageCouleur(name);
+        super('p', couleurBlanche);
     }
 
     @Override
-    public List<Position> moovePossible(Position p, Chess e) {
-        List<Position> l = new ArrayList<>();
+    public List<Position> deplacementsPossible(Position positionDuPion, Chess echiquier) {
+        List<Position> listeDeplacementsPossible = new ArrayList<>();
     
-        int direction = couleurBlanche() ? 1 : -1;
+        int direction = getCouleur() ? 1 : -1;
     
-        Position a = new Position(p.getX(), p.getY() + direction);
-        if (e.caseVide(a)) {
-            l.add(a);
+        Position positionCible = new Position(positionDuPion.getX(), positionDuPion.getY() + direction);
+        if (echiquier.caseVide(positionCible)) {
+            listeDeplacementsPossible.add(positionCible);
 
-            if ((couleurBlanche() && p.getY() == 2) || (!couleurBlanche() && p.getY() == 7)) {
-                Position a2 = new Position(p.getX(), p.getY() + 2 * direction);
-                if (e.caseVide(a2)) {
-                    l.add(a2);
+            if ((getCouleur() && positionDuPion.getY() == 2) || (!getCouleur() && positionDuPion.getY() == 7)) {
+                positionCible = new Position(positionDuPion.getX(), positionDuPion.getY() + 2 * direction);
+                if (echiquier.caseVide(positionCible)) {
+                    listeDeplacementsPossible.add(positionCible);
                 }
             }
         }
         for(int i = -1; i*i==1; i=i+2){
-            Position d = new Position(p.getX() + i, p.getY() + direction);
-            if (d.getY() >= 1 && d.getY() <= 8){
-                if (!e.caseVide(d) && e.get(d).couleurBlanche() != couleurBlanche()) {
-                    l.add(d);
+            positionCible = new Position(positionDuPion.getX() + i, positionDuPion.getY() + direction);
+            if (positionCible.getY() >= 1 && positionCible.getY() <= 8){
+                if (!echiquier.caseVide(positionCible) && echiquier.obtenirPieceALaPosition(positionCible).getCouleur() != getCouleur()) {
+                    listeDeplacementsPossible.add(positionCible);
                 }
             }
-            if(e.priseEnPassantPossible != null && e.priseEnPassantPossible.equals(d)){ 
-                l.add(d);
+            if(echiquier.getPriseEnPassant() != null && echiquier.getPriseEnPassant().equals(positionCible)){ 
+                listeDeplacementsPossible.add(positionCible);
             }
         }
-        return l;
+        return listeDeplacementsPossible;
     }
     
 }

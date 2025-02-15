@@ -7,49 +7,45 @@ public class Tour extends Pieces {
     private boolean roque;
 
     public Tour(boolean couleurBlanche) {
-        super("r", couleurBlanche);
+        super('t', couleurBlanche);
         roque = true;
     }
 
-    public String affichage() {
-        return super.affichageCouleur(name);
-    }
-
     @Override
-    public List<Position> moovePossible(Position p, Chess e) {
-        List<Position> l = new ArrayList<>();
+    public List<Position> deplacementsPossible(Position positionDeLaTour, Chess echiquier) {
+        List<Position> listeDeplacementsPossible = new ArrayList<>();
         
-        checkDirection(l, p, e, 1, 0);
-        checkDirection(l, p, e, -1, 0);
-        checkDirection(l, p, e, 0, 1);
-        checkDirection(l, p, e, 0, -1);
+        checkDirection(listeDeplacementsPossible, positionDeLaTour, echiquier, 1, 0);
+        checkDirection(listeDeplacementsPossible, positionDeLaTour, echiquier, -1, 0);
+        checkDirection(listeDeplacementsPossible, positionDeLaTour, echiquier, 0, 1);
+        checkDirection(listeDeplacementsPossible, positionDeLaTour, echiquier, 0, -1);
         
-        return l;
+        return listeDeplacementsPossible;
     }
 
-    private void checkDirection(List<Position> l, Position p, Chess e, int dx, int dy) {
-        int x = p.getX();
-        int y = p.getY();
+    private void checkDirection(List<Position> listeDeplacementsPossible, Position positionDeLaTour, Chess echiquier, int deplacementX, int deplacementY) {
+        int x = positionDeLaTour.getX();
+        int y = positionDeLaTour.getY();
         
         while (true) {
-            x += dx;
-            y += dy;
+            x += deplacementX;
+            y += deplacementY;
             if (!Position.verifValeur(x, y)){
                 break;
             }
-            Position test = new Position(x, y);
-            if (e.caseVide(test)) {
-                l.add(test);
+            Position positionCible = new Position(x, y);
+            if (echiquier.caseVide(positionCible)) {
+                listeDeplacementsPossible.add(positionCible);
             } else {
-                if (e.get(test).couleurBlanche() != couleurBlanche()) {
-                    l.add(test);
+                if (echiquier.obtenirPieceALaPosition(positionCible).getCouleur() != getCouleur()) {
+                    listeDeplacementsPossible.add(positionCible);
                 }
                 break;
             }
         }
     }
 
-    public boolean roquePossible(){
+    public boolean getRoque(){
         return roque;
     }
 

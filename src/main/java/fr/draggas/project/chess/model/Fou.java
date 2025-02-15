@@ -6,43 +6,39 @@ import java.util.List;
 public class Fou extends Pieces {
 
     public Fou(boolean couleurBlanche) {
-        super("b", couleurBlanche);
-    }
-
-    public String affichage() {
-        return super.affichageCouleur(name);
+        super('f', couleurBlanche);
     }
     
     @Override
-    public List<Position> moovePossible(Position p, Chess e) {
-        List<Position> l = new ArrayList<>();
+    public List<Position> deplacementsPossible(Position positionDuFou, Chess echiquier) {
+        List<Position> listeDeplacementsPossible = new ArrayList<>();
         
-        checkDirection(l, p, e, 1, 1);
-        checkDirection(l, p, e, -1, 1);
-        checkDirection(l, p, e, 1, -1);
-        checkDirection(l, p, e, -1, -1);
+        verifierDirection(listeDeplacementsPossible, positionDuFou, echiquier, 1, 1);
+        verifierDirection(listeDeplacementsPossible, positionDuFou, echiquier, -1, 1);
+        verifierDirection(listeDeplacementsPossible, positionDuFou, echiquier, 1, -1);
+        verifierDirection(listeDeplacementsPossible, positionDuFou, echiquier, -1, -1);
     
-        return l;
+        return listeDeplacementsPossible;
     }
     
-    private void checkDirection(List<Position> l, Position p, Chess e, int dx, int dy) {
-        int x = p.getX();
-        int y = p.getY();
+    private void verifierDirection(List<Position> listeDeplacementsPossible, Position positionDuFou, Chess echiquier, int deplacementX, int deplacementY) {
+        int x = positionDuFou.getX();
+        int y = positionDuFou.getY();
     
         while (true) {
-            x += dx;
-            y += dy;
+            x += deplacementX;
+            y += deplacementY;
 
             if (!Position.verifValeur(x, y)){
                 break;
             }
-            Position test = new Position(x, y);
+            Position verifPosition = new Position(x, y);
 
-            if (e.caseVide(test)) {
-                l.add(test);
+            if (echiquier.caseVide(verifPosition)) {
+                listeDeplacementsPossible.add(verifPosition);
             } else {
-                if (e.get(test).couleurBlanche() != couleurBlanche()) {
-                    l.add(test);
+                if (echiquier.obtenirPieceALaPosition(verifPosition).getCouleur() != getCouleur()) {
+                    listeDeplacementsPossible.add(verifPosition);
                 }
                 break;
             }

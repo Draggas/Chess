@@ -6,35 +6,31 @@ import java.util.List;
 public class Cavalier extends Pieces {
 
     public Cavalier(boolean couleurBlanche) {
-        super("n", couleurBlanche);
-    }
-
-    public String affichage() {
-        return super.affichageCouleur(name);
+        super('c', couleurBlanche);
     }
 
     @Override
-    public List<Position> moovePossible(Position p, Chess e) {
-        List<Position> l = new ArrayList<>();
+    public List<Position> deplacementsPossible(Position positionDuCavalier, Chess echiquier) {
+        List<Position> listeDeplacementsPossible = new ArrayList<>();
         
-        int[][] moves = {
+        int[][] positionDeplacements = {
             {2, 1}, {2, -1}, {-2, 1}, {-2, -1},
             {1, 2}, {1, -2}, {-1, 2}, {-1, -2}
         };
     
-        for (int[] move : moves) {
-            int x = p.getX() + move[0];
-            int y = p.getY() + move[1];
+        for (int[] position : positionDeplacements) {
+            int x = positionDuCavalier.getX() + position[0];
+            int y = positionDuCavalier.getY() + position[1];
             if(Position.verifValeur(x, y)){
-                Position test = new Position(x, y);
-                if (e.caseVide(test) || e.get(test).couleurBlanche() != couleurBlanche()) {
-                    l.add(test);
+                Position verifPosition = new Position(x, y);
+                if (echiquier.caseVide(verifPosition) || echiquier.obtenirPieceALaPosition(verifPosition).getCouleur() != getCouleur()) {
+                    listeDeplacementsPossible.add(verifPosition);
                 }
             }
 
         }
     
-        return l;
+        return listeDeplacementsPossible;
     }
     
 }

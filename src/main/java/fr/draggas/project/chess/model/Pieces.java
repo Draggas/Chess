@@ -3,27 +3,22 @@ package fr.draggas.project.chess.model;
 import java.util.List;
 
 public abstract class Pieces {
-    final String name;
+    final char caractereId;
     final boolean couleurBlanche;
 
-    public Pieces(String name, boolean couleurBlanche) {
-        this.name = name;
+    public Pieces(char caractereId, boolean couleurBlanche) {
+        this.caractereId = caractereId;
         this.couleurBlanche = couleurBlanche;
     }
 
-    public String affichageCouleur(String a){
-        if(this.couleurBlanche) return a;
-        else return a.toUpperCase();
+    public char getID(){
+        if(this.couleurBlanche) return caractereId;
+        else return Character.toUpperCase(caractereId);
     }
-    
-    public abstract String affichage();
 
-    public abstract List<Position> moovePossible(Position p, Chess e);
+    public abstract List<Position> deplacementsPossible(Position p, Chess e);
 
-    public String getName(){
-        return name;
-    }
-    public boolean couleurBlanche(){
+    public boolean getCouleur(){
         return couleurBlanche;
     }
 

@@ -32,14 +32,14 @@ public class ChessNoGraphicsView implements Observer {
             affichage = affichage + ligne + " ";
             for(int colonne=1;colonne<=8;colonne++){
                 p = new Position(colonne, ligne);
-                if(chess.getCoupPossible().contains(p)){affichage += RED;}
+                if(chess.obtenirListeCoupsPossible().contains(p)){affichage += RED;}
                 if(chess.containsKey(p)){
-                    affichage += chess.get(p).affichage();
+                    affichage += chess.obtenirPieceALaPosition(p).getID();
                 }
                 else {
                     affichage += affichageVide;
                 }
-                if(chess.getCoupPossible().contains(p)){affichage += RESET;}
+                if(chess.obtenirListeCoupsPossible().contains(p)){affichage += RESET;}
             }
             if(ligne != 1) affichage += nl;
         }

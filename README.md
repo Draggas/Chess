@@ -44,28 +44,20 @@ Lancer depuis un terminal à la racine du projet :
 ## Autres
 
 ### Lancer Couverture de Test avec Jacoco
-mvn clean test / mvn clean verify
-mvn verify
+mvn clean verify
 ouvrir le site en raccourci
 
-### AVANT
-- Remise à propre des différents classes (ergonomies, noms en anglais...)
+### Actions à réaliser
+
+- Remise à propre de la classe Chess et les Controllers/Views (ergonomies, noms en français, qualité de dev...)
+- Simplifications des méthodes
+- Couverture de Test à 100%
+- Mise au propre MVC interface non graphique
 - Implémentation du Controllers dans le ChessBoard
-
-### CHESS AVEC JAVAFX [TAG2]
 - Implémenter les différentes fonctions du controllers avec JavaFX (fonctionnement d'un jeu d'échec en version graphique)
+[TAG2]
 
-### CHESS AVEC J2EE et JS [TAG3]
-- Implémenter les différentes fonctions du controllers avec J2EE, JSP, JS (fonctionnement d'un jeu d'échec en version web)
-
-### CHESS AVEC JAVA et Android Studio [TAG4]
-- Implémenter les différentes fonctions du controllers (fonctionnement d'un jeu d'échec en version mobile)
-
-### FIN DU PROJET : BONUS [TAG5]
-- Ajout d'un Menu
-- Ajout la fonction de Sauvegarde
-- Système de création de Terrain
-- Ajout Triple Répétition
-- Système de Cadence
-- Ajout des Echecs
-- Ajout de l'Echec et Mat = Fin Du Jeu
+### Autres TAGs
+- [TAG3] Implémenter les différentes fonctions du controllers avec J2EE, JSP, JS (fonctionnement d'un jeu d'échec en version web)
+- [TAG4] Implémenter les différentes fonctions du controllers (fonctionnement d'un jeu d'échec en version mobile)
+- [TAG5] Ajout Menu, Fonction de Sauvegarde, Système de création de Terrain, Triple Répétition, Système de Cadence, Echecs et le Mat

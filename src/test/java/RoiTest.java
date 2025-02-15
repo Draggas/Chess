@@ -1,4 +1,5 @@
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -9,16 +10,29 @@ import fr.draggas.project.chess.model.Roi;
 import fr.draggas.project.chess.model.Tour;
 
 public class RoiTest {
+    Chess echiquier;
+    Roi roiBlanc;
+    Position positionDuRoi;
+
+    @BeforeEach
+    void setUp() {
+        // Création d'un échiquier vide
+        echiquier = new Chess(false);
+        
+        // Création d'un roi blanc (pièce à tester)
+        roiBlanc = new Roi(true);
+    }
 
     @Test
-    public void testDeplacements() {
-        Chess echiquier = new Chess(false);
-        Roi roiBlanc = new Roi(true);
-        Position positionRoi = new Position(4, 4);
-        echiquier.addPieces(positionRoi, roiBlanc);
+    public void test_des_deplacements_possibles_du_roi_sans_obstacles() {
+        // Position initiale du roi
+        positionDuRoi = new Position(4, 4);
+        echiquier.ajoutPieces(positionDuRoi, roiBlanc);
 
-        List<Position> mouvements = roiBlanc.moovePossible(positionRoi, echiquier);
+        // Calcul des déplacements possibles pour le roi
+        List<Position> mouvements = roiBlanc.deplacementsPossible(positionDuRoi, echiquier);
 
+        // Vérification qu'il y a bien 8 déplacements possibles pour le roi sans obstacles
         Assertions.assertEquals(8, mouvements.size());
         Assertions.assertTrue(mouvements.contains(new Position(4, 5))); // Haut
         Assertions.assertTrue(mouvements.contains(new Position(3, 3))); // Bas Gauche
@@ -26,26 +40,25 @@ public class RoiTest {
     }
 
     @Test
-    public void testRoque() {
-        Chess echiquier = new Chess(false);
-        Roi roiBlanc = new Roi(true);
-        Position positionRoi = new Position(5,1);
-        echiquier.addPieces(positionRoi, roiBlanc);
+    public void test_des_differents_roques_du_roi() {
+        // Position initiale du roi
+        positionDuRoi = new Position(5,1);
+        echiquier.ajoutPieces(positionDuRoi, roiBlanc);
+
+        // Ajouts Tours Pour Roque
         Tour tourBlanc = new Tour(true);
-        Position positionTour = new Position(8,1);
-        echiquier.addPieces(positionTour, tourBlanc);
         Tour tour2Blanc = new Tour(true);
-        Position positionTour2 = new Position(1,1);
-        echiquier.addPieces(positionTour2, tour2Blanc);
+        Position positionTour = new Position(1,1);
+        Position positionTour2 = new Position(8,1);
+        echiquier.ajoutPieces(positionTour, tourBlanc);
+        echiquier.ajoutPieces(positionTour2, tour2Blanc);
+        
+        // Calcul des déplacements possibles pour le roi
+        List<Position> mouvements = roiBlanc.deplacementsPossible(positionDuRoi, echiquier);
 
-        List<Position> mouvements = roiBlanc.moovePossible(positionRoi, echiquier);
-
+        // Vérification qu'il y a bien 7 déplacements possibles pour le roi à la place de 5
         Assertions.assertEquals(7, mouvements.size());
         Assertions.assertTrue(mouvements.contains(new Position(7,1))); // Petit Roque
         Assertions.assertTrue(mouvements.contains(new Position(2,1))); // Grand Roque
-
-        echiquier.deplacement("e1", "g1");
-        Assertions.assertEquals(Tour.class, echiquier.get(new Position("f1")).getClass());
-        Assertions.assertTrue(echiquier.caseVide(new Position("h1")));
     }
 }

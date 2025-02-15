@@ -5,14 +5,10 @@ import fr.draggas.project.chess.utils.Observable;
 
 public class Chess extends Observable {
     Map<Position,Pieces> echiquier = new HashMap<>();
-    List<Position> coupPossible = new ArrayList<>();
-    boolean tourBlanc = true;
-    boolean finPartie = false;
-    private static final Map<String, Set<Character>> CARA = new HashMap<>();
-    public Position priseEnPassantPossible = null;
+    List<Position> listeCoupsPossible = new ArrayList<>();
+    boolean tourAuJoueurBlanc = true;
+    boolean finDeLaPartie = false;
     Position priseEnPassant = null;
-    Position roiB = null;
-    Position roiN = null;
 
     public Chess(boolean nonVide){
         if(nonVide) initialisationPlateau();
@@ -23,40 +19,42 @@ public class Chess extends Observable {
     }
     
     public void initialisationPlateau(){
-        for(int i=0;i<2;i++){
-            echiquier.put(new Position(1,i*7+1), new Tour((i==0)));
-            echiquier.put(new Position(2,i*7+1), new Cavalier((i==0)));
-            echiquier.put(new Position(3,i*7+1), new Fou((i==0)));
-            echiquier.put(new Position(4,i*7+1), new Reine((i==0)));
-            echiquier.put(new Position(5,i*7+1), new Roi((i==0)));
-            echiquier.put(new Position(6,i*7+1), new Fou((i==0)));
-            echiquier.put(new Position(7,i*7+1), new Cavalier((i==0)));
-            echiquier.put(new Position(8,i*7+1), new Tour((i==0)));
+        for(int ligne=0;ligne<2;ligne++){
+            echiquier.put(new Position(1,ligne*7+1), new Tour((ligne==0)));
+            echiquier.put(new Position(2,ligne*7+1), new Cavalier((ligne==0)));
+            echiquier.put(new Position(3,ligne*7+1), new Fou((ligne==0)));
+            echiquier.put(new Position(4,ligne*7+1), new Dame((ligne==0)));
+            echiquier.put(new Position(5,ligne*7+1), new Roi((ligne==0)));
+            echiquier.put(new Position(6,ligne*7+1), new Fou((ligne==0)));
+            echiquier.put(new Position(7,ligne*7+1), new Cavalier((ligne==0)));
+            echiquier.put(new Position(8,ligne*7+1), new Tour((ligne==0)));
             for(int colonne=1;colonne<9;colonne++){
-                echiquier.put(new Position(colonne,i*5+2), new Pion((i==0)));
+                echiquier.put(new Position(colonne,ligne*5+2), new Pion((ligne==0)));
             }
-            roiB = new Position("e1");
-            roiN = new Position("e8");
         }
-        CARA.put("colonne", Set.of('a','b','c','d','e','f','g','h'));
-        CARA.put("ligne", Set.of('1', '2', '3', '4', '5', '6', '7', '8'));
     }
 
-    public void addPieces(Position pose, Pieces p){
+    public Position getPriseEnPassant(){
+        return this.priseEnPassant;
+    }
+
+    public void setPriseEnPassant(Position priseEnPassant) {
+        this.priseEnPassant = priseEnPassant;
+    }
+
+    public void ajoutPieces(Position pose, Pieces p){
        echiquier.put(pose, p);
     }
-    public void removePieces(Position pose){
-        echiquier.remove(pose);
+
+    public List<Position> obtenirListeCoupsPossible(){
+        return listeCoupsPossible;
     }
 
-    public List<Position> getCoupPossible(){
-        return coupPossible;
-    }
-
-    public Pieces get(Position pose){
+    public Pieces obtenirPieceALaPosition(Position pose){
         return echiquier.get(pose);
     }
 
+    /*ici */
     public boolean containsKey(Position pose){
         return echiquier.containsKey(pose);
     }
@@ -66,31 +64,27 @@ public class Chess extends Observable {
     }
 
     public boolean getTour(){
-        return this.tourBlanc;
+        return this.tourAuJoueurBlanc;
     }
 
     public boolean getFinPartie(){
-        return this.finPartie;
+        return this.finDeLaPartie;
     }
 
     public void changeTour(){
-        this.tourBlanc = !this.tourBlanc;
-    }
-
-    public Position priseEnPassant(){
-        return this.priseEnPassant;
+        this.tourAuJoueurBlanc = !this.tourAuJoueurBlanc;
     }
 
     public boolean verifCoup(String depart){
         if(depart.length() != 2) return false;
-        coupPossible = new ArrayList<>();
+        listeCoupsPossible = new ArrayList<>();
         char colonne = depart.charAt(0);
         char ligne = depart.charAt(1);
         if(Position.verifValeur(colonne, ligne)){
             Position v = new Position(colonne, ligne);
             if(!caseVide(v)){
-                if(get(v).couleurBlanche() == tourBlanc){
-                    coupPossible = get(v).moovePossible(v, this);
+                if(obtenirPieceALaPosition(v).getCouleur() == tourAuJoueurBlanc){
+                    listeCoupsPossible = obtenirPieceALaPosition(v).deplacementsPossible(v, this);
                     notifyObservers();
                     return true;
                 }
@@ -101,43 +95,43 @@ public class Chess extends Observable {
 
     public boolean deplacement(String depart, String arrivee){
         if(arrivee.length() != 2) return false;
-        if(coupPossible.isEmpty()){
+        if(listeCoupsPossible.isEmpty()){
             if(!verifCoup(depart)){
-                coupPossible = new ArrayList<>();
+                listeCoupsPossible = new ArrayList<>();
                 notifyObservers();
                 return false;
             }
         }
         char colonne = arrivee.charAt(0);
         char ligne = arrivee.charAt(1);
-        if(CARA.get("colonne").contains(colonne) && CARA.get("ligne").contains(ligne)){
+        if(Position.verifValeur(colonne, ligne)){
             Position d = new Position(depart.charAt(0), depart.charAt(1));
             Position a = new Position(colonne, Character.getNumericValue(ligne));
-            if(coupPossible.contains(a)){
+            if(listeCoupsPossible.contains(a)){
                 return moove(d,a);
             }
         }
-        coupPossible = new ArrayList<>();
+        listeCoupsPossible = new ArrayList<>();
         notifyObservers();
         return false;
     }
 
     public boolean moove(Position d, Position a){
-        if(tourBlanc != get(d).couleurBlanche()){
-            coupPossible = new ArrayList<>();
+        if(tourAuJoueurBlanc != obtenirPieceALaPosition(d).getCouleur()){
+            listeCoupsPossible = new ArrayList<>();
             notifyObservers();
             return false;
         }
-        if(get(d).getClass() == Tour.class) ((Tour) get(d)).setRoque(false);
-        if(!caseVide(a) && get(a).getClass() == Roi.class) finPartie = true;
+        if(obtenirPieceALaPosition(d).getClass() == Tour.class) ((Tour) obtenirPieceALaPosition(d)).setRoque(false);
+        if(!caseVide(a) && obtenirPieceALaPosition(a).getClass() == Roi.class) finDeLaPartie = true;
         if(caseVide(a)) echiquier.remove(a);
         echiquier.put(a, echiquier.remove(d));
-        if(get(a).getClass() == Pion.class && (a.getY() == 8 || a.getY() == 1)){
-            echiquier.put(a, choixPromotion(echiquier.remove(a).couleurBlanche()));
+        if(obtenirPieceALaPosition(a).getClass() == Pion.class && (a.getY() == 8 || a.getY() == 1)){
+            echiquier.put(a, choixPromotion(echiquier.remove(a).getCouleur()));
         }
-        if(get(a).getClass() == Roi.class){
-            ((Roi) get(a)).setRoque(false);
-            ((Roi) get(a)).setGrandRoque(false);
+        if(obtenirPieceALaPosition(a).getClass() == Roi.class){
+            ((Roi) obtenirPieceALaPosition(a)).setRoque(false);
+            ((Roi) obtenirPieceALaPosition(a)).setGrandRoque(false);
             if(d.getX() == 5){
                 if(a.getX() == 3){
                     echiquier.put(new Position(4, a.getY()), echiquier.remove(new Position(1,a.getY())));
@@ -148,7 +142,7 @@ public class Chess extends Observable {
             }
         }
         notifyObservers();
-        coupPossible = new ArrayList<>();
+        listeCoupsPossible = new ArrayList<>();
         return true;
     }
 
@@ -173,11 +167,11 @@ public class Chess extends Observable {
                 return new Fou(couleur);
             default :
                 s.close();
-                return new Reine(couleur);
+                return new Dame(couleur);
         }
     }
     
-    public List<Position> coupPossible(){
-        return coupPossible;
+    public List<Position> listeCoupsPossible(){
+        return listeCoupsPossible;
     }
 }

@@ -8,48 +8,44 @@ public class Roi extends Pieces {
     private boolean grandRoque;
 
     public Roi(boolean couleurBlanche) {
-        super("k", couleurBlanche);
+        super('k', couleurBlanche);
         roque = true;
         grandRoque = true;
     }
-
-    public String affichage() {
-        return super.affichageCouleur(name);
-    }
     
     @Override
-    public List<Position> moovePossible(Position p, Chess e) {
-        List<Position> l = new ArrayList<>();
+    public List<Position> deplacementsPossible(Position positionDuRoi, Chess echiquier) {
+        List<Position> listeDeplacementsPossible = new ArrayList<>();
         
-        int[] dx = {-1, -1, -1, 0, 0, 1, 1, 1};
-        int[] dy = {-1, 0, 1, -1, 1, -1, 0, 1};
+        int[] deplacementsX = {-1, -1, -1, 0, 0, 1, 1, 1};
+        int[] deplacementsY = {-1, 0, 1, -1, 1, -1, 0, 1};
         
-        for (int i = 0; i < dx.length; i++) {
-            if(Position.verifValeur(p.getX() + dx[i], p.getY() + dy[i])){
-                Position n = new Position(p.getX() + dx[i], p.getY() + dy[i]);
-                if (e.caseVide(n) || e.get(n).couleurBlanche() != couleurBlanche()) {
-                    l.add(n);
+        for (int i = 0; i < deplacementsX.length; i++) {
+            if(Position.verifValeur(positionDuRoi.getX() + deplacementsX[i], positionDuRoi.getY() + deplacementsY[i])){
+                Position n = new Position(positionDuRoi.getX() + deplacementsX[i], positionDuRoi.getY() + deplacementsY[i]);
+                if (echiquier.caseVide(n) || echiquier.obtenirPieceALaPosition(n).getCouleur() != getCouleur()) {
+                    listeDeplacementsPossible.add(n);
                 }
             }
         }
 
-        int y = couleurBlanche() ? 1 : 8;
-        Position poseRoque = new Position(8,y);
-        Position poseGrandRoque = new Position(1,y);
-        if(roque && !e.caseVide(poseRoque) && e.get(poseRoque).getClass() == Tour.class && e.caseVide(new Position(7, y)) && e.caseVide(new Position(6, y)) && ((Tour) e.get(poseRoque)).roquePossible()){
-            l.add(new Position(7,y));
+        int positionYNecessaire = getCouleur() ? 1 : 8;
+        Position poseRoque = new Position(8,positionYNecessaire);
+        Position poseGrandRoque = new Position(1,positionYNecessaire);
+        if(roque && !echiquier.caseVide(poseRoque) && echiquier.obtenirPieceALaPosition(poseRoque).getClass() == Tour.class && echiquier.caseVide(new Position(7, positionYNecessaire)) && echiquier.caseVide(new Position(6, positionYNecessaire)) && ((Tour) echiquier.obtenirPieceALaPosition(poseRoque)).getRoque()){
+            listeDeplacementsPossible.add(new Position(7,positionYNecessaire));
         }
-        if(grandRoque && !e.caseVide(poseGrandRoque) && e.get(poseGrandRoque).getClass() == Tour.class && e.caseVide(new Position(2, y)) && e.caseVide(new Position(4, y)) && e.caseVide(new Position(3, y)) && ((Tour) e.get(poseGrandRoque)).roquePossible()){
-            l.add(new Position(2,y));
+        if(grandRoque && !echiquier.caseVide(poseGrandRoque) && echiquier.obtenirPieceALaPosition(poseGrandRoque).getClass() == Tour.class && echiquier.caseVide(new Position(2, positionYNecessaire)) && echiquier.caseVide(new Position(4, positionYNecessaire)) && echiquier.caseVide(new Position(3, positionYNecessaire)) && ((Tour) echiquier.obtenirPieceALaPosition(poseGrandRoque)).getRoque()){
+            listeDeplacementsPossible.add(new Position(2,positionYNecessaire));
         }
-        return l;
+        return listeDeplacementsPossible;
     }
     
-    public boolean roquePossible(){
+    public boolean getRoque(){
         return roque;
     }
     
-    public boolean grandRoquePossible(){
+    public boolean getGrandRoque(){
         return grandRoque;
     }
 
