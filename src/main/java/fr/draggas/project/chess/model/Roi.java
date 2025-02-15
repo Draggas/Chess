@@ -23,7 +23,7 @@ public class Roi extends Pieces {
         for (int i = 0; i < deplacementsX.length; i++) {
             if(Position.verifValeur(positionDuRoi.getX() + deplacementsX[i], positionDuRoi.getY() + deplacementsY[i])){
                 Position n = new Position(positionDuRoi.getX() + deplacementsX[i], positionDuRoi.getY() + deplacementsY[i]);
-                if (echiquier.caseVide(n) || echiquier.obtenirPieceALaPosition(n).getCouleur() != getCouleur()) {
+                if (echiquier.positionEstVide(n) || echiquier.obtenirPieceALaPosition(n).getCouleur() != getCouleur()) {
                     listeDeplacementsPossible.add(n);
                 }
             }
@@ -32,10 +32,10 @@ public class Roi extends Pieces {
         int positionYNecessaire = getCouleur() ? 1 : 8;
         Position poseRoque = new Position(8,positionYNecessaire);
         Position poseGrandRoque = new Position(1,positionYNecessaire);
-        if(roque && !echiquier.caseVide(poseRoque) && echiquier.obtenirPieceALaPosition(poseRoque).getClass() == Tour.class && echiquier.caseVide(new Position(7, positionYNecessaire)) && echiquier.caseVide(new Position(6, positionYNecessaire)) && ((Tour) echiquier.obtenirPieceALaPosition(poseRoque)).getRoque()){
+        if(roque && !echiquier.positionEstVide(poseRoque) && echiquier.obtenirPieceALaPosition(poseRoque).getClass() == Tour.class && echiquier.positionEstVide(new Position(7, positionYNecessaire)) && echiquier.positionEstVide(new Position(6, positionYNecessaire)) && ((Tour) echiquier.obtenirPieceALaPosition(poseRoque)).getRoque()){
             listeDeplacementsPossible.add(new Position(7,positionYNecessaire));
         }
-        if(grandRoque && !echiquier.caseVide(poseGrandRoque) && echiquier.obtenirPieceALaPosition(poseGrandRoque).getClass() == Tour.class && echiquier.caseVide(new Position(2, positionYNecessaire)) && echiquier.caseVide(new Position(4, positionYNecessaire)) && echiquier.caseVide(new Position(3, positionYNecessaire)) && ((Tour) echiquier.obtenirPieceALaPosition(poseGrandRoque)).getRoque()){
+        if(grandRoque && !echiquier.positionEstVide(poseGrandRoque) && echiquier.obtenirPieceALaPosition(poseGrandRoque).getClass() == Tour.class && echiquier.positionEstVide(new Position(2, positionYNecessaire)) && echiquier.positionEstVide(new Position(4, positionYNecessaire)) && echiquier.positionEstVide(new Position(3, positionYNecessaire)) && ((Tour) echiquier.obtenirPieceALaPosition(poseGrandRoque)).getRoque()){
             listeDeplacementsPossible.add(new Position(2,positionYNecessaire));
         }
         return listeDeplacementsPossible;

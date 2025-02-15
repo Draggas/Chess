@@ -33,6 +33,10 @@ public class Position {
         return Position.verifValeur(position.getX(), position.getY());
     }
 
+    public static boolean verifValeur(String notation){
+        return Position.verifValeur(new Position(notation));
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;

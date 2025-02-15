@@ -34,7 +34,7 @@ public class Fou extends Pieces {
             }
             Position verifPosition = new Position(x, y);
 
-            if (echiquier.caseVide(verifPosition)) {
+            if (echiquier.positionEstVide(verifPosition)) {
                 listeDeplacementsPossible.add(verifPosition);
             } else {
                 if (echiquier.obtenirPieceALaPosition(verifPosition).getCouleur() != getCouleur()) {

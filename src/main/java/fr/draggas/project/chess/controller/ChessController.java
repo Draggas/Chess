@@ -9,15 +9,15 @@ public class ChessController {
         this.chess = chess;
     }
 
-    public boolean deplacement(String depart, String arrivee) {
-        return chess.deplacement(depart, arrivee);
+    public boolean verificationDuDeplacement(String depart, String arrivee) {
+        return chess.verificationDuDeplacement(depart, arrivee);
     }
 
-    public boolean verifCoup(String depart) {
-        return chess.verifCoup(depart);
+    public boolean verificationDuPointDeDepart(String depart) {
+        return chess.verificationDuPointDeDepart(depart);
     }
 
     public void changementTour() {
-        chess.changeTour();
+        chess.changementTour();
     }
 }

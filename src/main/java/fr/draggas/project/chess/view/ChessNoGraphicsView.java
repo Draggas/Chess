@@ -33,7 +33,7 @@ public class ChessNoGraphicsView implements Observer {
             for(int colonne=1;colonne<=8;colonne++){
                 p = new Position(colonne, ligne);
                 if(chess.obtenirListeCoupsPossible().contains(p)){affichage += RED;}
-                if(chess.containsKey(p)){
+                if(!chess.positionEstVide(p)){
                     affichage += chess.obtenirPieceALaPosition(p).getID();
                 }
                 else {
@@ -50,7 +50,7 @@ public class ChessNoGraphicsView implements Observer {
         return affichage;
     }
 
-    public void startGame(){
+    public void lancerLeJeu(){
         Scanner scan = new Scanner(System.in);
         System.out.println("Début de la partie\n------------------");
 
@@ -60,12 +60,12 @@ public class ChessNoGraphicsView implements Observer {
             System.out.print(chess.getTour() ? " Blanc : " : "Noir : ");
             String depart = scan.nextLine();
             if (depart.equalsIgnoreCase("Quit")) break;
-            if(controller.verifCoup(depart)){
+            if(controller.verificationDuPointDeDepart(depart)){
                 System.out.print("[Quit pour quitter le jeu] Arrivé ");
                 System.out.print(chess.getTour() ? " Blanc : " : "Noir : ");
                 String arrivee = scan.nextLine();
                 if (arrivee.equalsIgnoreCase("Quit")) break;
-                if(controller.deplacement(depart, arrivee)){
+                if(controller.verificationDuDeplacement(depart, arrivee)){
                     if(chess.getFinPartie()){
                         String victoire = chess.getTour() ? "blanches" : "noires";
                         System.out.println("Victoire pour le joueur qui a les pièces " + victoire);
@@ -92,7 +92,7 @@ public class ChessNoGraphicsView implements Observer {
 
         chess.addObserver(view);
         
-        view.startGame();
+        view.lancerLeJeu();
     }
 
 }

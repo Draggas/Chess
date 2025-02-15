@@ -16,19 +16,19 @@ public class ChessTest {
     public void test_ecriture_des_notations_valides(){
         
         // Test de pièces valides
-        Assertions.assertTrue(echiquier.verifCoup("e2")); // Pion blanc bien initié
-        echiquier.changeTour(); // Changement de tour (Joueur Noir)
-        Assertions.assertTrue(echiquier.verifCoup("d7")); // Pion noir bien initié
-        Assertions.assertTrue(echiquier.verifCoup("h8")); // Pion noir bien initié
-        echiquier.changeTour(); // Changement de tour (Joueur Blanc)
-        Assertions.assertTrue(echiquier.verifCoup("h1")); // Pion blanc bien initié
+        Assertions.assertTrue(echiquier.verificationDuPointDeDepart("e2")); // Pion blanc bien initié
+        echiquier.changementTour(); // Changement de tour (Joueur Noir)
+        Assertions.assertTrue(echiquier.verificationDuPointDeDepart("d7")); // Pion noir bien initié
+        Assertions.assertTrue(echiquier.verificationDuPointDeDepart("h8")); // Pion noir bien initié
+        echiquier.changementTour(); // Changement de tour (Joueur Blanc)
+        Assertions.assertTrue(echiquier.verificationDuPointDeDepart("h1")); // Pion blanc bien initié
 
         // Test de pièces invalides
-        Assertions.assertFalse(echiquier.verifCoup("g9")); // Hors de l'échiquier (9 n'existe pas)
-        Assertions.assertFalse(echiquier.verifCoup("j1")); // Hors de l'échiquier (colonne "j" inexistante)
-        Assertions.assertFalse(echiquier.verifCoup("d4")); // Case sans pièce au début de partie
-        Assertions.assertFalse(echiquier.verifCoup("d5")); // Case sans pièce au début de partie
-        Assertions.assertFalse(echiquier.verifCoup("d23")); // Format incorrect (23 n'existe pas)
-        Assertions.assertFalse(echiquier.verifCoup("xx")); // Format incorrect (pas une notation échiquéenne)
+        Assertions.assertFalse(echiquier.verificationDuPointDeDepart("g9")); // Hors de l'échiquier (9 n'existe pas)
+        Assertions.assertFalse(echiquier.verificationDuPointDeDepart("j1")); // Hors de l'échiquier (colonne "j" inexistante)
+        Assertions.assertFalse(echiquier.verificationDuPointDeDepart("d4")); // Case sans pièce au début de partie
+        Assertions.assertFalse(echiquier.verificationDuPointDeDepart("d5")); // Case sans pièce au début de partie
+        Assertions.assertFalse(echiquier.verificationDuPointDeDepart("d23")); // Format incorrect (23 n'existe pas)
+        Assertions.assertFalse(echiquier.verificationDuPointDeDepart("xx")); // Format incorrect (pas une notation échiquéenne)
     }
 }

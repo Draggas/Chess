@@ -23,7 +23,7 @@ public class Cavalier extends Pieces {
             int y = positionDuCavalier.getY() + position[1];
             if(Position.verifValeur(x, y)){
                 Position verifPosition = new Position(x, y);
-                if (echiquier.caseVide(verifPosition) || echiquier.obtenirPieceALaPosition(verifPosition).getCouleur() != getCouleur()) {
+                if (echiquier.positionEstVide(verifPosition) || echiquier.obtenirPieceALaPosition(verifPosition).getCouleur() != getCouleur()) {
                     listeDeplacementsPossible.add(verifPosition);
                 }
             }

@@ -16,12 +16,12 @@ public class Pion extends Pieces {
         int direction = getCouleur() ? 1 : -1;
     
         Position positionCible = new Position(positionDuPion.getX(), positionDuPion.getY() + direction);
-        if (echiquier.caseVide(positionCible)) {
+        if (echiquier.positionEstVide(positionCible)) {
             listeDeplacementsPossible.add(positionCible);
 
             if ((getCouleur() && positionDuPion.getY() == 2) || (!getCouleur() && positionDuPion.getY() == 7)) {
                 positionCible = new Position(positionDuPion.getX(), positionDuPion.getY() + 2 * direction);
-                if (echiquier.caseVide(positionCible)) {
+                if (echiquier.positionEstVide(positionCible)) {
                     listeDeplacementsPossible.add(positionCible);
                 }
             }
@@ -29,7 +29,7 @@ public class Pion extends Pieces {
         for(int i = -1; i*i==1; i=i+2){
             positionCible = new Position(positionDuPion.getX() + i, positionDuPion.getY() + direction);
             if (positionCible.getY() >= 1 && positionCible.getY() <= 8){
-                if (!echiquier.caseVide(positionCible) && echiquier.obtenirPieceALaPosition(positionCible).getCouleur() != getCouleur()) {
+                if (!echiquier.positionEstVide(positionCible) && echiquier.obtenirPieceALaPosition(positionCible).getCouleur() != getCouleur()) {
                     listeDeplacementsPossible.add(positionCible);
                 }
             }

@@ -34,7 +34,7 @@ public class Tour extends Pieces {
                 break;
             }
             Position positionCible = new Position(x, y);
-            if (echiquier.caseVide(positionCible)) {
+            if (echiquier.positionEstVide(positionCible)) {
                 listeDeplacementsPossible.add(positionCible);
             } else {
                 if (echiquier.obtenirPieceALaPosition(positionCible).getCouleur() != getCouleur()) {
