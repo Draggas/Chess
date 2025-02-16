@@ -49,10 +49,6 @@ ouvrir le site en raccourci
 
 ### Actions à réaliser
 
-- Remise à propre de la classe Chess et les Controllers/Views (ergonomies, noms en français, qualité de dev...)
-- Simplifications des méthodes
-- Couverture de Test à 100%
-- Mise au propre MVC interface non graphique
 - Implémentation du Controllers dans le ChessBoard
 - Implémenter les différentes fonctions du controllers avec JavaFX (fonctionnement d'un jeu d'échec en version graphique)
 [TAG2]

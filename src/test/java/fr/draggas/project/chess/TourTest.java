@@ -1,3 +1,4 @@
+package fr.draggas.project.chess;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -65,5 +66,15 @@ public class TourTest {
         Assertions.assertTrue(mouvements.contains(new Position(1, 2))); // Déplacement vers le haut
         Assertions.assertTrue(mouvements.contains(new Position(8, 1))); // Extrémité droite
         Assertions.assertTrue(mouvements.contains(new Position(1, 8))); // Extrémité haut
+    }
+
+    @Test
+    public void test_setRoque() {
+        // Test des setters et getters de roque
+        tourBlanche.setRoque(false);
+        Assertions.assertFalse(tourBlanche.getRoque());
+
+        tourBlanche.setRoque(true);
+        Assertions.assertTrue(tourBlanche.getRoque());
     }
 }
