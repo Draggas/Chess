@@ -17,7 +17,6 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
 /**
  * Classe représentant une vue graphique d'un jeu d'échecs avec interface graphique.
@@ -76,22 +75,34 @@ public class ChessBoard extends JFrame implements Observer {
                     int row = 8 - (e.getY() - 40) / TILE_SIZE;
                     Position clickedPosition = new Position(col, row);
 
-                    JOptionPane.showMessageDialog(null, "Clique sur la position: " + clickedPosition);
-
                     if (selectedPosition == null) {
                         if (controller.verificationDuPointDeDepart(clickedPosition.toString())) {
                             selectedPosition = clickedPosition;
+                            JOptionPane.showMessageDialog(null, "Pièce de départ : " + clickedPosition);
                         } else {
                             JOptionPane.showMessageDialog(null, "Sélection invalide. Veuillez sélectionner une pièce valide.");
                         }
                     } else {
-                        if (controller.verificationDuDeplacement(selectedPosition.toString(), clickedPosition.toString())) {
-                            controller.changementTour();
-                            JOptionPane.showMessageDialog(null, "Déplacement valide de " + selectedPosition + " à " + clickedPosition + ". Tour au joueur " + (chess.getTour() ? "Blanc" : "Noir"));
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Déplacement invalide.");
-                        }
+                        Position depart = selectedPosition;
                         selectedPosition = null;
+                        if (controller.verificationDuDeplacement(depart.toString(), clickedPosition.toString())) {
+                            if(chess.getFinPartie()){
+                                JOptionPane.showMessageDialog(null, "Victoire pour le joueur " + (chess.getTour() ? "Blanc" : "Noir"));
+                                dispose();
+                            } else {
+                                controller.changementTour();
+                                JOptionPane.showMessageDialog(null, "Déplacement valide de " + depart + " à " + clickedPosition + ". Tour au joueur " + (chess.getTour() ? "Blanc" : "Noir"));
+                            }
+                        } else {
+                            if(!chess.positionEstVide(clickedPosition) && chess.obtenirPieceALaPosition(depart).getCouleur() == chess.obtenirPieceALaPosition(clickedPosition).getCouleur()){
+                                JOptionPane.showMessageDialog(null, "Selection d'une autre pièce");
+                                if (controller.verificationDuPointDeDepart(clickedPosition.toString())) {
+                                    selectedPosition = clickedPosition;
+                                }
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Déplacement invalide.");
+                            }
+                        }
                     }                    
                 }
             });
@@ -140,37 +151,45 @@ public class ChessBoard extends JFrame implements Observer {
     /**
      * Propose une promotion pour un pion et retourne la nouvelle pièce choisie.
      * @param couleur La couleur du pion à promouvoir.
-     * @return La nouvelle pièce choisie pour la promotion.
      */
     @Override
     public void promotion(Position arrivee, boolean couleur) {
-        Scanner s = new Scanner(System.in);
-        System.out.println("Choisissez une pièce pour la promotion :");
-        System.out.println("1 - Tour");
-        System.out.println("2 - Cavalier");
-        System.out.println("3 - Fou");
-        System.out.println("Autres - Reine");
-        System.out.print("Entrez le numéro correspondant à votre choix : ");
-        int choix = s.nextInt();
-        Pieces piece;
+        // Créer et afficher un dialogue pour la promotion
+        JDialog promotionDialog = new JDialog(this, "Promotion du pion", true);
+        promotionDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        promotionDialog.setSize(300, 200);
+        promotionDialog.setLayout(new GridLayout(4, 1));
+        promotionDialog.setUndecorated(true);
 
-        switch (choix) {
-            case 1:
-                piece = new Tour(couleur);
-                break;
-            case 2:
-                piece = new Cavalier(couleur);
-                break;
-            case 3:
-                piece = new Fou(couleur);
-                break;
-            default:
-                piece = new Dame(couleur);
-                break;
+        String[] pieces = {"Tour", "Fou", "Cavalier", "Dame"};
+        for (String pieceName : pieces) {
+            JButton button = new JButton(pieceName);
+            button.addActionListener(e -> {
+                Pieces piece;
+                switch (pieceName) {
+                    case "Tour":
+                        piece = new Tour(couleur);
+                        break;
+                    case "Fou":
+                        piece = new Fou(couleur);
+                        break;
+                    case "Cavalier":
+                        piece = new Cavalier(couleur);
+                        break;
+                    case "Dame":
+                    default:
+                        piece = new Dame(couleur);
+                        break;
+                }
+                chess.ajoutPieces(arrivee, piece);
+                promotionDialog.dispose();
+                repaint();
+            });
+            promotionDialog.add(button);
         }
 
-        s.close();
-        chess.ajoutPieces(arrivee, piece);
+        promotionDialog.setLocationRelativeTo(this);
+        promotionDialog.setVisible(true);
     }
 
     public static void main(String[] args) {

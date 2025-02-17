@@ -120,7 +120,7 @@ public class ChessTest {
         // Test de la méthode Pieces.getID()
         Pieces roiBlanc = new Roi(true);
         Pieces roiNoir = new Roi(false);
-        Assertions.assertEquals('k', roiBlanc.getID());
-        Assertions.assertEquals('K', roiNoir.getID());
+        Assertions.assertEquals('r', roiBlanc.getID());
+        Assertions.assertEquals('R', roiNoir.getID());
     }
 }

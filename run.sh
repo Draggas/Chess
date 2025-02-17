@@ -16,5 +16,5 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# Exécutez le projet avec le plugin JavaFX
-mvn javafx:run
+# Exécutez le projet
+java -jar target/Chess-2.0-SNAPSHOT.jar
