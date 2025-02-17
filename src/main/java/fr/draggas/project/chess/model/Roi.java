@@ -14,7 +14,7 @@ public class Roi extends Pieces {
      * @param couleurBlanche Couleur du roi, true pour blanc, false pour noir.
      */
     public Roi(boolean couleurBlanche) {
-        super('k', couleurBlanche);
+        super('r', couleurBlanche);
         roque = true;
         grandRoque = true;
     }

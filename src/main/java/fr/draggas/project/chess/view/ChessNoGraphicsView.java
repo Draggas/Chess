@@ -155,7 +155,7 @@ public class ChessNoGraphicsView implements Observer {
         System.out.println(">Erreur dans la pièce de départ");
     }
 
-        /**
+    /**
      * Propose une promotion pour un pion et retourne la nouvelle pièce choisie.
      * @param couleur La couleur du pion à promouvoir.
      * @return La nouvelle pièce choisie pour la promotion.

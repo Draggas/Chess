@@ -49,8 +49,10 @@ ouvrir le site en raccourci
 
 ### Actions à réaliser
 
-- Implémentation du Controllers dans le ChessBoard
-- Implémenter les différentes fonctions du controllers avec JavaFX (fonctionnement d'un jeu d'échec en version graphique)
+- Ajout de la Promotion dedans
+- Jaune se retire quand la pièce s'est déplacé
+- Changement de pièce quand c'est de la même couleur que la pièce choisi
+- Ajoute la Fin de partie quand la méthode finPartie()
 [TAG2]
 
 ### Autres TAGs

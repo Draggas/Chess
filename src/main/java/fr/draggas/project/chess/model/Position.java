@@ -52,10 +52,21 @@ public class Position {
      */
     public static boolean verifValeur(String notation){
         return Position.verifValeur(new Position(notation));
-    }
+        }
 
-    @Override
-    public int hashCode() {
+        /**
+         * Retourne une représentation sous forme de chaîne de caractères de la position.
+         * Par exemple, pour x=5 et y=1, cela retourne "e1".
+         * @return La représentation de la position en notation échiquier.
+         */
+        @Override
+        public String toString() {
+        char column = (char) ('a' + x - 1);
+        return "" + column + y;
+        }
+
+        @Override
+        public int hashCode() {
         int result = 1;
         result = PRIME * result + x;
         result = PRIME * result + y;

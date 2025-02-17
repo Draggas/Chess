@@ -83,4 +83,16 @@ public class PositionTest {
             position.setY(9);
         });
     }
+
+    @Test
+    public void test_toString() {
+        Position position = new Position(3, 6);
+        Assertions.assertEquals("c6", position.toString());
+
+        position = new Position("a1");
+        Assertions.assertEquals("a1", position.toString());
+
+        position = new Position(8, 8);
+        Assertions.assertEquals("h8", position.toString());
+    }
 }
